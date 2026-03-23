@@ -1,0 +1,110 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #112463 0%, #7985b9 100%);
+  padding: 2rem;
+}
+
+.register-form {
+  background: #ffffff;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333333;
+}
+
+.register-form input,
+.register-form select.custom-select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.register-form select.custom-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='gray' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+.register-form input:focus,
+.register-form select.custom-select:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px #4caf50;
+}
+
+.register-form select.custom-select:invalid {
+  color: #999; /* mismo color que los placeholders */
+}
+
+/* Estilo para las demás opciones */
+.register-form select.custom-select option {
+  color: #000; /* texto normal */
+}
+
+.register-form button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-form button:hover {
+  background-color: #45a049;
+}
+
+.register-form button:disabled {
+  background-color: #ccc !important;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.register-form button:disabled:hover {
+  background-color: #ccc !important;
+}
+
+.register-links {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.register-links a {
+  color: #4caf50;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
+
+.register-links a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .register-form {
+    padding: 1.5rem 2rem;
+  }
+}

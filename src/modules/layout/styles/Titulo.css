@@ -1,0 +1,90 @@
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  .logo img {
+    height: 50px;
+    cursor: pointer;
+  }
+  
+  .page-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin: 0 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-width: 120px; /* Evitar que se comprima demasiado */
+  }
+  
+  .avatar-icon {
+    font-size: 32px;
+    color: #555;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .modal {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+  }
+  
+  .modal button {
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .modal button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* 🎯 Responsivo para móviles */
+  @media (max-width: 600px) {
+    .page-title {
+      font-size: 16px;
+      margin: 0 10px;
+    }
+  
+    .username {
+      display: none; /* Solo mostrar el icono en móviles */
+    }
+  }
+  

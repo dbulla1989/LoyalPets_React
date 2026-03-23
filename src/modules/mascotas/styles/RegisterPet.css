@@ -1,0 +1,89 @@
+.pet-form {
+    max-width: 100%;
+    margin: 32px auto;
+    padding: 28px 24px 20px 24px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pet-photo-container {
+    width: 320px;
+    height: 320px;
+    border: 2px dashed #bdbdbd;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+  }
+  
+  .pet-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .upload-btn {
+    margin-bottom: 18px;
+    padding: 7px 22px;
+    border: none;
+    background: #1976d2;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .upload-btn:hover {
+    background: #125ea7;
+  }
+  
+  .form-group {
+    width: 50%;
+    padding: 7px 22px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #f7f7f7;
+    color: #222;
+  }
+  
+  .submit-btn {
+    margin-top: 10px;
+    padding: 9px 0;
+    width: 50%;
+    border: none;
+    background: #43a047;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .submit-btn:hover {
+    background: #357a38;
+  }
+  
