@@ -68,5 +68,61 @@
     margin: 10px;
     align-self: flex-end;
   }
+
+  .dashboard-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex: 1;
+}
+
+.card-icon {
+  font-size: 24px;
+  color: #4f46e5;
+}
+
+.quick-actions {
+  margin-bottom: 20px;
+}
+
+.actions-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.action-btn {
+  padding: 10px 15px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.today-appointments table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.today-appointments th,
+.today-appointments td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
   
   

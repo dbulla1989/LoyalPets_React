@@ -121,7 +121,7 @@ export default function LoginForm() {
               <Link to="/RecuperarContraseña" className="login-link">
                 ¿Olvidaste tu contraseña?
               </Link>
-              <Link to="/Registrarse" className="login-link">
+              <Link to="/Person/Register" className="login-link">
                 Registrarse
               </Link>
             </div>

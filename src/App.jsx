@@ -7,6 +7,9 @@ import PetList from "./modules/mascotas/components/PetList";
 import RegisterPet from "./modules/mascotas/components/RegisterPet";
 import Home from "./modules/home/components/Home";
 import Informative from "./modules/informative/components/Informative";
+import AgendarCita from "./modules/agenda/components/AgendarCita";
+import ModificarCita from "./modules/agenda/components/ModificarCita";
+import EliminarCita from "./modules/agenda/components/EliminarCita";
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Route path="/Home" element={<Home />}>
           <Route path="Mascotas/Lista" element={<PetList />} />
           <Route path="Mascotas/Registrar" element={<RegisterPet />} />
+          <Route path="AgendarCita" element={<AgendarCita />} />
+          <Route path="ModificarCita" element={<ModificarCita />} />
+          <Route path="EliminarCita" element={<EliminarCita />} />
         </Route>
         <Route path="/Company/Login" element={<LoginForm />} />
         <Route path="/Company/Register" element={<RegistrarEmpresa />} />
