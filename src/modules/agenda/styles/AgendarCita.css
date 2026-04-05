@@ -1,0 +1,90 @@
+.vet-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card */
+.vet-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Title */
+.vet-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Form grid */
+.vet-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Group */
+.vet-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Full width */
+.vet-full {
+  grid-column: span 2;
+}
+
+/* Inputs */
+.vet-group input,
+.vet-group select,
+.vet-group textarea {
+  padding: 10px;
+  border-radius: 8px;
+}
+.vet-group textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* Button */
+.vet-button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.vet-button:hover {
+  background: #1d4ed8;
+}
+
+/* Success */
+.vet-success {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vet-form {
+    grid-template-columns: 1fr;
+  }
+
+  .vet-full {
+    grid-column: span 1;
+  }
+}
