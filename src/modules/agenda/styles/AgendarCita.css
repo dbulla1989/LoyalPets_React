@@ -10,7 +10,7 @@
   background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 700px;
 }
@@ -85,6 +85,6 @@
   }
 
   .vet-full {
-    grid-column: span 1;
+    grid-column: span 2;
   }
 }

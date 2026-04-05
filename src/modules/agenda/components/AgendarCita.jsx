@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import "../styles/AgendarCita.css";
 
-export default function AgendarCita() {
+/**
+ * props:
+ * pets: [
+ *  { id:1, name:'Firulais', type:'Perro', owner:'Juan' }
+ * ]
+ */
+export default function AgendarCita({ pets = [] }) {
   const [formData, setFormData] = useState({
-    ownerName: "",
-    petName: "",
-    petType: "",
+    petId: "",
     service: "",
     date: "",
     time: "",
@@ -21,78 +25,71 @@ export default function AgendarCita() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Cita agendada:", formData);
+
+    const selectedPet = pets.find(p => p.id.toString() === formData.petId);
+
+    const appointment = {
+      ...formData,
+      pet: selectedPet
+    };
+
+    console.log("Cita agendada:", appointment);
     setSubmitted(true);
   };
 
   return (
     <div className="vet-container">
       <div className="vet-card">
-        <h2 className="vet-title">Agendar Cita Veterinaria</h2>
+        <h2 className="vet-title">Nueva Cita</h2>
 
         {submitted ? (
           <div className="vet-success">
             <h3>✅ Cita agendada correctamente</h3>
-            <p>Te contactaremos para confirmar la cita</p>
-            <button className="vet-button" onClick={() => setSubmitted(false)}>
+            <p>La cita fue registrada para la mascota seleccionada</p>
+            <button
+              className="vet-button"
+              onClick={() => setSubmitted(false)}
+            >
               Agendar otra cita
             </button>
           </div>
         ) : (
           <form className="vet-form" onSubmit={handleSubmit}>
-            <div className="vet-group">
-              <label>Nombre del dueño</label>
-              <input
-                type="text"
-                name="ownerName"
-                value={formData.ownerName}
-                onChange={handleChange}
-                required
-              />
-            </div>
 
-            <div className="vet-group">
-              <label>Nombre de la mascota</label>
-              <input
-                type="text"
-                name="petName"
-                value={formData.petName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="vet-group">
-              <label>Tipo de mascota</label>
+            {/* seleccionar mascota existente */}
+            <div className="vet-group vet-full">
+              <label>Mascota</label>
               <select
-                name="petType"
-                value={formData.petType}
+                name="petId"
+                value={formData.petId}
                 onChange={handleChange}
                 required
               >
-                <option value="">Seleccionar</option>
-                <option value="Perro">Perro</option>
-                <option value="Gato">Gato</option>
-                <option value="Ave">Ave</option>
-                <option value="Otro">Otro</option>
+                <option value="">Seleccionar mascota</option>
+                {pets.map((pet) => (
+                  <option key={pet.id} value={pet.id}>
+                    {pet.name} - {pet.type} ({pet.owner})
+                  </option>
+                ))}
               </select>
             </div>
 
-            <div className="vet-group">
-              <label>Servicio</label>
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Seleccionar servicio</option>
-                <option value="Consulta">Consulta General</option>
-                <option value="Vacunacion">Vacunación</option>
-                <option value="Estetica">Estética / Baño</option>
-                <option value="Urgencia">Urgencia</option>
-              </select>
-            </div>
+<div className="vet-group vet-full">
+  <label>Servicio</label>
+  <select
+    name="service"
+    value={formData.service}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Seleccionar servicio</option>
+    <option value="Consulta">Consulta General</option>
+    <option value="Vacunacion">Vacunación</option>
+    <option value="Estetica">Estética / Baño</option>
+    <option value="Urgencia">Urgencia</option>
+  </select>
+</div>
+                                        
 
             <div className="vet-group">
               <label>Fecha</label>
@@ -104,7 +101,7 @@ export default function AgendarCita() {
                 required
               />
             </div>
-
+                        
             <div className="vet-group">
               <label>Hora</label>
               <input
@@ -117,12 +114,12 @@ export default function AgendarCita() {
             </div>
 
             <div className="vet-group vet-full">
-              <label>Notas adicionales</label>
+              <label>Notas</label>
               <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
-                placeholder="Síntomas, observaciones..."
+                placeholder="Motivo de la cita..."
               />
             </div>
 
