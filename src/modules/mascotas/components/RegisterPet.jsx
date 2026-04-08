@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/RegisterPet.css";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
@@ -18,9 +18,11 @@ export default function RegisterPet() {
     personId: person.id,
     name: "",
     age: "",
+    animalType: "",
     race: "",
     encodedImage: "",
   });
+  const [animalTypes, setAnimalTypes] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
@@ -31,17 +33,21 @@ export default function RegisterPet() {
   const [raza, setRaza] = useState("");
   const fileInputRef = useRef();
 
-  // const handleFotoChange = (e) => {
-  //   const file = e.target.files[0];
-  //   setFoto(file);
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => setFotoPreview(reader.result);
-  //     reader.readAsDataURL(file);
-  //   } else {
-  //     setFotoPreview(null);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchAnimalTypes = async () => {
+      try {
+        const res = await fetch("/api/animalType/all");
+        const data = await res.json();
+        setAnimalTypes(data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchAnimalTypes();
+  }, []);
 
   const handleFotoChange = (e) => {
     const file = e.target.files[0];
@@ -59,6 +65,24 @@ export default function RegisterPet() {
     } else {
       setFotoPreview(null);
     }
+  };
+
+  // ← RAZAS del tipo seleccionado (mapeo de tu breedTypes)
+  const currentAnimal = animalTypes.find(
+    (animal) => animal.id === parseInt(selectedAnimalType),
+  );
+  const breeds = currentAnimal
+    ? currentAnimal.breedTypes.map((bt) => bt.name)
+    : [];
+
+  const handleAnimalChange = (e) => {
+    const value = e.target.value;
+    setSelectedAnimalType(value);
+    setSelectedBreed("");
+  };
+
+  const handleBreedChange = (e) => {
+    setSelectedBreed(e.target.value);
   };
 
   const handleFotoClick = (e) => {
@@ -88,7 +112,7 @@ export default function RegisterPet() {
       console.log(formData);
       const response = await apiService.post("api/pet", formData);
 
-      if (!response){
+      if (!response) {
         setModalMessage("¡Mascota registrada exitosamente!");
         setModalType("success");
       }
@@ -143,6 +167,22 @@ export default function RegisterPet() {
           />
         </div>
         <div className="form-group">
+          <label>Tipo de Animal</label>
+          <select
+            name="animalType"
+            value={selectedAnimalType}
+            onChange={handleAnimalChange}
+            required
+          >
+            <option value="">Selecciona un tipo de animal</option>
+            {animalTypes.map((animal) => (
+              <option key={animal.id} value={animal.id}>
+                {animal.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
           <label>Raza</label>
           <select
             name="race"
@@ -150,7 +190,7 @@ export default function RegisterPet() {
             onChange={handleChange}
             required
           >
-            <option value="">Selecciona una raza</option>
+            <option value="">Selecciona la raza del animal</option>
             {petsType.map((raza) => (
               <option key={raza} value={raza}>
                 {raza}

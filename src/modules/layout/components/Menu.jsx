@@ -14,6 +14,10 @@ import {
   FaBell,
 } from "react-icons/fa";
 import "../styles/Menu.css";
+import { ImAddressBook } from "react-icons/im";
+import { MdAssignmentAdd } from "react-icons/md";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { TbCalendarCancel } from "react-icons/tb";
 
 const menuItems = [
   {
@@ -33,7 +37,28 @@ const menuItems = [
       {
         path: "/Home/Mascotas/Registrar",
         name: "Registrar Mascota",
-        icon: <FaBars  />,
+        icon: <FaBars />,
+      },
+    ],
+  },
+  {
+    name: "Agendas",
+    icon: <ImAddressBook />,
+    subItems: [
+      {
+        path: "/Home/AgendarCita",
+        name: "Agendar Citas",
+        icon: <MdAssignmentAdd />,
+      },
+      {
+        path: "/Home/ModificarCita",
+        name: "Modificar Citas",
+        icon: <GrDocumentUpdate />,
+      },
+      {
+        path: "/Home/EliminarCita",
+        name: "Cancelar Citas",
+        icon: <TbCalendarCancel />,
       },
     ],
   },
@@ -133,7 +158,7 @@ function Menu() {
               <div className="icon">{item.icon}</div>
               {isOpen && <div className="link-text">{item.name}</div>}
             </Link>
-          )
+          ),
         )}
       </nav>
     </div>
