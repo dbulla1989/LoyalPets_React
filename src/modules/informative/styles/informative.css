@@ -7,11 +7,9 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #ffffff;
 }
 
-.worldpets-page {
+.redpet-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,70 +17,111 @@ body {
 
 /* Sidebar horizontal (navbar flotante) */
 .slide-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  padding: 0 2%;
+  height: 70px;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7); /* Blanco con 70% de opacidad */
+  backdrop-filter: blur(10px);                /* El desenfoque del fondo */
+  -webkit-backdrop-filter: blur(12px);       /* Soporte para Safari */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap; 
+}
+
+  .icon{
+  height: 70px;              
+  width: auto;
+  object-fit: contain;
+  margin-right:15px;
 }
 
 .slide-bar-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 25px;                
+  margin-right: auto;  
 }
 
-.slide-link {
-  color: #0033a0;
+.slide-link {   
   text-decoration: none;
+  color: #202020; /* Un azul más oscuro y profesional */
   font-weight: 600;
-  font-size: 1rem;
-  transition: color 0.2s;
+  font-size: 1rem ;
 }
 
 .slide-link:hover {
-  color: #002570;
+   color: #725353;
 }
 
 .btn-login.slide-bar-login {
-  background: transparent;
-  color: #0033a0;
-  border: 2px solid #0033a0;
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  padding: 10px 20px;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .btn-login.slide-bar-login:hover {
-  background: #0033a0;
-  color: white;
+   background: #725353;
+   transform: translateY(-2px);
 }
 
 /* Hero / Sección inicial */
 .hero {
-  background: linear-gradient(135deg, #5e81f4, #8b5cf6);
-  color: white;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.884),   rgba(243, 236, 236, 0.801)), 
+    url("../../../../src/assets/fondo.jpg");
+  color: rgb(0, 0, 0);
   padding: 8rem 2rem 6rem;
   text-align: center;
 }
 
 .hero-content h1 {
-  font-size: 2.8rem;
-  margin-bottom: 1rem;
+  font-size: 4.5rem;          /* Tamaño */
+  font-weight: 800;           /* Extra negrita */
+  letter-spacing: -0.5px;       
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #1A1A1A 0%, #D32F2F 100%);
+  -webkit-background-clip: text; /* Hace que el degradado esté dentro de las letras */
+  -webkit-text-fill-color: transparent; 
+  display: block;
+  margin-bottom: 5px;   /* Reduce el espacio de abajo a casi nada */
+  line-height: 1.2; 
+  padding: 5px 10px          /* Reduce el espacio entre líneas al mínimo para que el texto se vea más compacto */
 }
 
+.hero-content h2 {
+  text-align: center;      /* Centra el texto por dentro */
+  max-width: 1000px;        /* Limita el ancho para que el texto salte de línea */
+  margin: 0 auto;          /* Centra el bloque de texto en la pantalla */
+  font-size: 3rem;       /* Tamaño de letra grande */
+  font-weight: 800;        /* Negrita gruesa */
+  line-height: 1.2;        /* Espaciado entre líneas para que no se amontone */
+  color: #202020;          /* Tu color negro de la paleta */
+  padding: 0 20px;
+  margin-top: 0;        /* Elimina cualquier espacio que el h2 empuje hacia arriba */
+  line-height: 1.1;
+}
+
+
 .hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-inline: auto;
+  margin-top: 10px;       /* Ajusta este número: 0px para pegarlo total, 15px para algo de aire */
+  margin-bottom: 30px;    
+  color: #202020;         /* Un gris profesional, no negro total */
+  font-weight: 400; 
+  font-size: 1.2rem;      /* Un poco más grande para que sea legible */
+  line-height: 1.6;       /* Espacio entre líneas para que no se vea amontonado */
+  max-width: 650px;       /* Igual que el h2, limita el ancho para que no se extienda */
+  margin-left: auto;      /* Estas dos líneas centran el párrafo */
+  margin-right: auto;
 }
 
 .hero-buttons {
@@ -95,42 +134,45 @@ body {
 .btn-primary,
 .btn-secondary,
 .btn-outline {
-  padding: 0.8rem 1.6rem;
-  border-radius: 6px;
+  padding: 15px 35px;
+  border-radius: 50px;       /* Forma de píldora como en la foto */
+  font-weight: 700;
   font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
   border: none;
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3); /* Sombra de color (glow) */
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .btn-primary {
-  background: #0033a0;
-  color: white;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: #002570;
-  transform: translateY(-1px);
+  background: #725353;
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background: #f8f9fa;
-  color: #0033a0;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
 }
 
 .btn-secondary:hover {
-  background: #e9ecef;
+  background: #725353;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
-  background: transparent;
-  color: white;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
   border: 2px solid white;
 }
 
 .btn-outline:hover {
   background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Contenedor principal de secciones */
@@ -144,15 +186,32 @@ body {
 .main-features,
 .benefits,
 .cta {
-  padding: 4rem 0;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.main-features{
+  background-color: #eeeeee;
+}
+
+.benefits {
+  background-color: #ffffff;
+}
+
+.cta {
+  background-color: #eeeeee;
 }
 
 .main-features h2,
 .benefits h2,
 .cta h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #0033a0;
+  font-size: 4rem;          /* Tamaño */
+  font-weight: 800;           /* Extra negrita */
+  letter-spacing: -0.5px;       
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #D32F2F 0%, #1A1A1A 100%);
+  -webkit-background-clip: text; /* Hace que el degradado esté dentro de las letras */
+  -webkit-text-fill-color: transparent; 
 }
 
 /* Grid de características */
@@ -163,38 +222,122 @@ body {
 }
 
 .feature-card {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px; /* Bordes más redondeados como la foto 4 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Sombra muy suave */
+  text-align: left; /* Alineado a la izquierda */
+  transition: transform 0.3s ease;
+  border: 1px solid #f0f0f0; /* Un borde casi invisible */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px); /* Efecto al pasar el mouse */
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px; /* Bordes redondeados del cuadrito */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  overflow: hidden;      /* CRUCIAL: Corta lo que sobresalga de los bordes */
+  position: relative;
+  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+}
+
+.card-icon1, 
+.card-icon2,
+.card-icon3 {
+  width: 205% ;   /* Obliga a ocupar todo el ancho */
+  height: 205% ;         /* Obliga a la imagen a ser tan alta como el contenedor */
+  object-fit: cover;    /* LA MAGIA: Llena todo el espacio sin deformarse */
+  display: block;
 }
 
 .feature-card h3 {
-  margin-bottom: 0.8rem;
-  color: #0033a0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1A1A1A; /* Negro profesional */
+  margin: 0;
 }
 
-/* Sección de beneficios */
-.benefits {
-  background-color: #f1f5ff;
-}
-
-.benefits-list {
-  list-style: none;
-  max-width: 700px;
+/* Sección Beneficios */
+/* Contenedor del acordeón */
+.faq-wrapper {
+  max-width: 800px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
 }
 
-.benefits-list li {
-  margin-bottom: 1rem;
+.faq-item {
+  background-color: #eeeeee;
+  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+  border: 1px solid #a7a4a4; 
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Cuando está abierto: Cambia al rojo RedPet */
+.faq-item[open] {
+  border-color: #f5c4c4; 
+  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+}
+
+summary {
+  list-style: none;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   font-size: 1.1rem;
+  color: #1A1A1A; /* Tu azul oscuro original */
 }
 
-/* Sección de llamado a la acción (CTA) */
-.cta {
-  background: linear-gradient(135deg, #0033a0, #002570);
-  color: white;
-  text-align: center;
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Icono con fondo rojo muy suave */
+.faq-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(211, 47, 47, 0.1); /* Fondo rojo transparente */
+  color: #D32F2F; /* Icono Rojo */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+/* Flecha Roja */
+.arrow {
+  margin-left: auto;
+  color: linear-gradient(10deg, #1A1A1A 10%, #D32F2F 100%);
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+
+.faq-item[open] .arrow {
+  transform: rotate(180deg);
+}
+
+.faq-content {
+  padding: 0 20px 20px 67px;
+  text-align: left;
+  color: #1A1A1A;
+  line-height: 1.6;
 }
 
 .cta p {
@@ -207,54 +350,75 @@ body {
   display: flex;
   gap: 1rem;
   justify-content: center;
-}
-
-.cta-buttons .btn-primary {
-  background: white;
-  color: #0033a0;
-}
-
-.cta-buttons .btn-primary:hover {
-  background: #f8f9fa;
-}
-
-.cta-buttons .btn-outline {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-}
-
-.cta-buttons .btn-outline:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
+.cta-buttons .btn-primary {
+  padding: 15px 35px;
+  border-radius: 50px;       /* Forma de píldora como en la foto */
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3); /* Sombra de color (glow) */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cta-buttons .btn-primary:hover {
+  transform: translateY(-2px);
+}
+
 /* Footer */
-.footer {
-  background: #0d1117;
-  color: #ccc;
-  padding: 2rem 0;
-  margin-top: auto;
+.main-footer {
+  background-color: #040d1a;
+  color: white;
+  padding: 40px 20px; /* Padding lateral para que el texto no toque los bordes */
+  width: 100%;
+  box-sizing: border-box; /* Evita que el padding sume ancho extra */
 }
 
 .footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* ¡ESTO ES LA CLAVE! Permite que los elementos bajen si no caben */
   justify-content: space-between;
-  gap: 2rem;
+  gap: 30px;
 }
 
-.footer-logo h3 {
-  margin-bottom: 0.5rem;
-  color: white;
+.footer-brand, .footer-contact {
+  flex: 1 1 300px; /* Crece, se encoge y tiene un ancho base de 300px */
+  min-width: 100px; /* No se hace más pequeño que esto */
 }
 
-.footer-links {
-  margin-top: 1rem;
+.footer-brand p {
+  max-width: 100%; /* El texto se ajusta al contenedor */
+  line-height: 1.5;
+  font-size: 0.9rem;
 }
 
-.footer-links p {
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
+/* Copyright siempre centrado al final */
+.footer-bottom {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.footer-bottom hr {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-logo, .footer-contact li {
+    justify-content: center;
+  }
 }
 
 /* Responsive */

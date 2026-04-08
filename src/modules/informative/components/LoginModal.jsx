@@ -26,7 +26,7 @@ function LoginPageModal({ isOpen, onClose }) {
             Iniciar sesión como persona
           </button>
           <button onClick={handleCompanyLogin} className="login-option-btn company">
-            Iniciar sesión como empresa
+            Iniciar sesión como veterinaria
           </button>
         </div>
         <button onClick={onClose} className="login-modal-close">

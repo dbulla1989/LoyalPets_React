@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
 import apiService from "../../core/resources/GlobalResource";
 import "../styles/LoginForm.css";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/icon.png";
 
 const EyeOpen = (
   <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
@@ -105,6 +105,7 @@ export default function LoginForm() {
               value={formData.username}
               onChange={handleChange}
               className="login-input"
+              autoComplete="off"
             />
             <input
               name="password"
@@ -113,6 +114,7 @@ export default function LoginForm() {
               value={formData.password}
               onChange={handleChange}
               className="login-input"
+              autoComplete="new-password"
             />
             <button type="submit" className="login-button">
               Entrar

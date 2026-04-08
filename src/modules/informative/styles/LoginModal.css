@@ -22,8 +22,15 @@
 }
 
 .login-modal h2 {
-  margin-bottom: 1.5rem;
-  color: #0033a0;
+  font-size: 1.5rem;          /* Tamaño */
+  font-weight: 800;           /* Extra negrita */
+  background: linear-gradient(90deg, #1A1A1A 0%, #D32F2F 100%);
+  -webkit-background-clip: text; /* Hace que el degradado esté dentro de las letras */
+  -webkit-text-fill-color: transparent; 
+  display: block;
+  margin-bottom: 5px;   /* Reduce el espacio de abajo a casi nada */
+  line-height: 1.2; 
+  padding: 5px 10px 
 }
 
 .login-options {
@@ -37,38 +44,46 @@
   padding: 0.8rem 1.2rem;
   border-radius: 6px;
   border: none;
-  font-size: 1rem;
   cursor: pointer;
 }
 
 .login-option-btn.person {
-  background: #0033a0;
-  color: white;
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3);
+  font-weight: 700;
+  font-size: 1rem;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
+  
 }
 
 .login-option-btn.person:hover {
-  background: #002570;
+  background: #725353;
+  transform: translateY(-2px);
 }
 
 .login-option-btn.company {
-  background: #2e9aff;
-  color: white;
+  box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3);
+  font-weight: 700;
+  font-size: 1rem;
+  background: linear-gradient(40deg, #1A1A1A 0%, #D32F2F 50%);
+  color: #ffffff;
 }
 
 .login-option-btn.company:hover {
-  background: #1d8ae6;
+  background: #725353;
+  transform: translateY(-2px);
 }
 
 .login-modal-close {
   padding: 0.6rem 1rem;
   border-radius: 6px;
-  border: 1px solid #0033a0;
+  border: 1px solid #000000;
   background: transparent;
-  color: #0033a0;
+  color: #1A1A1A;
   font-size: 0.95rem;
   cursor: pointer;
 }
 
 .login-modal-close:hover {
-  background: #f1f5ff;
+  background: #c7b4b3;
 }
