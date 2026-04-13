@@ -18,6 +18,7 @@ import { ImAddressBook } from "react-icons/im";
 import { MdAssignmentAdd } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { TbCalendarCancel } from "react-icons/tb";
+import { MdOutlineHistory } from "react-icons/md";
 
 const menuItems = [
   {
@@ -57,8 +58,8 @@ const menuItems = [
       },
       {
         path: "/Home/EliminarCita",
-        name: "Cancelar Citas",
-        icon: <TbCalendarCancel />,
+        name: "Historial Médico",
+        icon: <MdOutlineHistory />,
       },
     ],
   },

@@ -1,0 +1,25 @@
+.vet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.vet-table th,
+.vet-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.vet-table th {
+  background-color: #f3f4f6;
+}
+
+.vet-button.delete {
+  background: #dc2626;
+  margin-left: 5px;
+}
+
+.vet-button.delete:hover {
+  background: #b91c1c;
+}

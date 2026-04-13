@@ -33,7 +33,7 @@ function Titulo({ pageTitle }) {
   return (
     <header className="header">
       <div className="logo">
-        <img src="../../../../src/assets/logo_icon.png" />
+        <img src="../../../../src/assets/icon.png" />
       </div>
 
       <div className="page-title">{pageTitle}</div>

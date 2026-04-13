@@ -1,0 +1,132 @@
+/* Contenedor */
+.vet-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* Card */
+.vet-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Título */
+.vet-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Formulario */
+.vet-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Grupo */
+.vet-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Ancho completo */
+.vet-full {
+  grid-column: span 2;
+}
+
+/* Inputs */
+.vet-group input,
+.vet-group select,
+.vet-group textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+/* Textarea */
+.vet-group textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* Botón */
+.vet-button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.vet-button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================
+   TABLA HISTORIAL MÉDICO
+   ========================= */
+
+.vet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.vet-table th,
+.vet-table td {
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Encabezado */
+.vet-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+/* Filas alternas */
+.vet-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Hover fila */
+.vet-table tr:hover {
+  background-color: #eef2ff;
+}
+
+/* Texto vacío */
+.vet-empty {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vet-form {
+    grid-template-columns: 1fr;
+  }
+
+  .vet-full {
+    grid-column: span 1;
+  }
+
+  .vet-table {
+    font-size: 12px;
+  }
+}

@@ -2,7 +2,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  background-color: #1e1e2f;
+  background: linear-gradient(180deg, #7f1d1d, #dc2626);
   color: white;
   transition: width 0.3s;
   overflow-x: hidden;
@@ -13,11 +13,11 @@
 }
 
 .sidebar.open {
-  width: 200px;
+  width: 220px;
 }
 
 .sidebar.closed {
-  width: 100px;
+  width: 90px;
 }
 
 .top-section {
@@ -46,28 +46,29 @@
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 18px;
   color: white;
   text-decoration: none;
-  transition: background 0.3s;
+  transition: all 0.3s;
   cursor: pointer;
+  border-left: 4px solid transparent;
 }
 
 .menu-item:hover {
-  background-color: #3b3b5c;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #fff;
 }
 
 .icon {
   font-size: 1.5rem;
   padding-right: 10px;
-
   min-width: 30px;
   text-align: center;
 }
 
 .link-text {
   margin-left: 10px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .menu-item.submenu {
@@ -82,13 +83,13 @@
   width: 100%;
   padding: 15px 20px;
   color: white;
-  transition: background 0.3s;
+  transition: all 0.3s;
   cursor: pointer;
 }
 
 .submenu-title.open,
 .submenu-title:hover {
-  background-color: #27274a;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .submenu-title span {
@@ -99,7 +100,7 @@
 
 .submenu-items {
   width: 100%;
-  background: #282846;
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   padding-left: 10px;
@@ -107,18 +108,20 @@
 
 .menu-item.sub-item {
   padding: 10px 30px;
-  color: #cfcfff;
-  font-size: 1rem;
+  color: #fca5a5;
+  font-size: 0.95rem;
+  transition: 0.3s;
 }
 
 .menu-item.sub-item:hover {
-  background-color: #3b3b5c;
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
 .menu-item.active,
 .menu-item.sub-item.active {
-  background-color: #3b3b5c;
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #fff;
   color: #fff;
 }
 
