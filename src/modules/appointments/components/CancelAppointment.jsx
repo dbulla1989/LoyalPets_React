@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/EliminarCita.css";
+import "../styles/CancelAppointment.css";
 
 export default function EliminarCita({ pets = [], histories = [] }) {
   const [selectedPetId, setSelectedPetId] = useState("");

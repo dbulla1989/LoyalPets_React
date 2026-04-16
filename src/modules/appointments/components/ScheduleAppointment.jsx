@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/AgendarCita.css";
+import "../styles/ScheduleAppointment.css";
 
 /**
  * props:

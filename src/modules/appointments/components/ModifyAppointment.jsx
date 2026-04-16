@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/ModificarCita.css";
+import "../styles/ModifyAppointment.css";
 
 /**
  * SOLO MODIFICAR Y ELIMINAR CITAS

@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
 import { FaBars, FaCalendarPlus, FaUsers, FaClock, FaClipboardList } from "react-icons/fa";
-import "../styles/Home.css";
+import "../styles/HomePerson.css";
 
 function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true);

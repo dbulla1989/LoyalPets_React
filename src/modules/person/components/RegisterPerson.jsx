@@ -1,8 +1,8 @@
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/RegistrarUsuario.css";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import "../styles/RegisterPerson.css";
 
 const EyeOpen = (
   <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
