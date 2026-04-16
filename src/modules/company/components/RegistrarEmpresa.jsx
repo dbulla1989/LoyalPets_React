@@ -32,10 +32,10 @@ const EyeClosed = (
 
 function RegistrarEmpresa() {
   const [formData, setFormData] = useState({
-    identificationType: "",
-    identification: "",
-    names: "",
-    surnames: "",
+    documentType: "",
+    documentNumber: "",
+    companyName: "",
+    legalRepresentative: "",
     cellPhone: "",
     email: "",
     password: "",
@@ -54,22 +54,17 @@ function RegistrarEmpresa() {
   const isCellphoneValid = formData.cellPhone.length === 10;
 
   const navigate = useNavigate();
-
-  // const formatNumberWithDots = (value) => {
-  //   if (!value) return "";
-  //   value = value.replace(/^0+/, "");
-  //   return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  // };
-
   const cleanDigits = (value) => value.replace(/\D/g, "");
 
   const formatWithDotsAndDash = (value) => {
     const digits = cleanDigits(value);
     if (!digits) return "";
     if (digits.length <= 9) return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return digits
-      .slice(0, 9)
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "-" + digits.slice(9, 10);
+    return (
+      digits.slice(0, 9).replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
+      "-" +
+      digits.slice(9, 10)
+    );
   };
 
   const handleIdTypeChange = (e) => {
@@ -77,7 +72,7 @@ function RegistrarEmpresa() {
     setFormData((prev) => ({
       ...prev,
       idType: value,
-      identification: "", // opcional: limpiar al cambiar tipo de documento
+      documentNumber: "",
     }));
   };
 
@@ -89,9 +84,10 @@ function RegistrarEmpresa() {
     setModalOpen(false);
 
     if (modalType === "success") {
-      navigate("/home");
+      navigate("/Company/Login");
     }
   };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -102,14 +98,12 @@ function RegistrarEmpresa() {
   const handleIdentificationChange = (e) => {
     const raw = e.target.value;
     const onlyNums = cleanDigits(raw);
-
-    // Límite condicional según tipo
     const maxDigits = formData.idType === "NIT" ? 9 : 10;
 
     if (onlyNums.length <= maxDigits) {
       setFormData((prev) => ({
         ...prev,
-        identification: onlyNums,
+        documentNumber: onlyNums,
       }));
     }
   };
@@ -129,17 +123,24 @@ function RegistrarEmpresa() {
       },
     };
 
-    console.log("Registrando usuario:", updatedFormData);
+    console.log("Registrando empresa:", updatedFormData);
 
     try {
       const response = await apiService.post("api/company", updatedFormData);
 
-      if (!response) {
-        // alert("¡Usuario registrado exitosamente!");
-        setModalMessage("¡Usuario registrado exitosamente!");
+      console.log("respuesta del backend:"+ response.status);
+      console.log("respuesta del backend:"+ response.data);
+
+      if (response.status === 200) {
+        setModalMessage("¡Clinica registrada exitosamente!");
         setModalType("success");
-        navigate("/Company/Login");
-      }
+      } 
+
+      if (response.status === 400) {
+        setModalMessage("¡La clinica ya se encuentra registrada!");
+        setModalType("error");
+      } 
+
       setModalOpen(true);
     } catch (err) {
       setError(err.message || "Error al momento de registrar el usuario");
@@ -152,8 +153,8 @@ function RegistrarEmpresa() {
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Crear Cuenta</h2>
           <select
-            name="identificationType"
-            value={formData.identificationType}
+            name="documentType"
+            value={formData.documentType}
             onChange={handleChange}
             required
             className="custom-select"
@@ -167,41 +168,27 @@ function RegistrarEmpresa() {
 
           <input
             type="text"
-            name="identification"
+            name="documentNumber"
             placeholder="Numero de Identificación"
-            value={formatWithDotsAndDash(formData.identification)}
+            value={formatWithDotsAndDash(formData.documentNumber)}
             onChange={handleIdentificationChange}
-            // onChange={(e) => {
-            //   const onlyNums = e.target.value.replace(/\D/g, "");
-            //   if (onlyNums.length <= 9) {
-            //     setFormData({
-            //       ...formData,
-            //       identification: onlyNums,
-            //     });
-
-            //     let formatted = onlyNums;
-            //     if (onlyNums.length > 9) {
-            //       formatted = onlyNums.slice(0, 9) + "-" + onlyNums.slice(9);
-            //     }
-            //   }
-            // }}
             required
           />
 
           <input
             type="text"
-            name="names"
-            placeholder="Nombres"
-            value={formData.names}
+            name="companyName"
+            placeholder="Razón Social"
+            value={formData.companyName}
             onChange={handleChange}
             required
           />
 
           <input
             type="text"
-            name="surnames"
-            placeholder="Apellidos"
-            value={formData.surnames}
+            name="legalRepresentative"
+            placeholder="Representante Legal"
+            value={formData.legalRepresentative}
             onChange={handleChange}
             required
           />
@@ -308,7 +295,20 @@ function RegistrarEmpresa() {
             Registrarse
           </button>
           <div className="register-links">
-            <a href="Person/Login">¿Ya tienes cuenta?</a>
+            <span
+              onClick={() => {
+                console.log("🚀 Click detectado!");
+                console.log("Navegando a:", "/Person/Login");
+                navigate("/Company/Login");
+              }}
+              style={{
+                cursor: "pointer",
+                color: "#007bff",
+                textDecoration: "underline",
+              }}
+            >
+              ¿Ya tienes cuenta? [DEBUG]
+            </span>
           </div>
         </form>
       </div>

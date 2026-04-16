@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import "../styles/informative.css";
 import logo from "../../../../src/assets/Icon.png";
@@ -8,15 +9,26 @@ import I3 from "../../../../src/assets/Icon3.png";
 
 function HomePage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  
+  const navigate = useNavigate();
+
+  const handleCompanyRegister = () => {
+    navigate("/Company/Register");
+    onClose();
+  };
+
+  const handlePersonRegister = () => {
+    navigate("/Person/Register");
+    onClose();
+  };
+
   return (
     <div className="redpets-page">
       {/* Sidebar horizontal / navbar */}
       <nav className="slide-bar">
         {/* 2. Contenedor del Logo */}
         <a href="#inicio" className="logo-container">
-    <img src={logo} alt="Logo Red Pets" className="icon" /> 
-  </a>
+          <img src={logo} alt="Logo Red Pets" className="icon" />
+        </a>
         <div className="slide-bar-links">
           <a href="#inicio" className="slide-link">
             Inicio
@@ -48,13 +60,19 @@ function HomePage() {
       <section id="inicio" className="hero">
         <div className="hero-content">
           <h1>Red Pets</h1>
-          <h2>La Plataforma que Centraliza Servicios Veterinarios para tus Mascotas</h2>
+          <h2>
+            La Plataforma que Centraliza Servicios Veterinarios para tus
+            Mascotas
+          </h2>
           <p>
-            Garantiza el cuidado de tu animalito con acceso total a servicios veterinarios. 
+            Garantiza el cuidado de tu animalito con acceso total a servicios
+            veterinarios.
           </p>
           <div className="hero-buttons">
-            <button className="btn-primary">Registrarse como clínica</button>
-            <button className="btn-secondary">
+            <button className="btn-primary" onClick={handleCompanyRegister}>
+              Registrarse como clínica
+            </button>
+            <button className="btn-secondary" onClick={handlePersonRegister}>
               Registrar mascota / Agendar cita
             </button>
           </div>
@@ -107,7 +125,6 @@ function HomePage() {
         <div className="container">
           <h2>Beneficios de usar Red Pets</h2>
           <div className="faq-wrapper">
-          
             <details className="faq-item" open>
               <summary>
                 <div className="faq-icon">🐾</div>
@@ -115,12 +132,17 @@ function HomePage() {
                 <span className="arrow">∨</span>
               </summary>
               <div className="faq-content">
-                <p>Tus citas se agendan y se asignan de manera inmediata en la veterinaria que elijas, lo que permite una sincronización automática y eficiente.
-                   De esta forma, podrás tener registro de tus citas, evitando errores, cruces de horarios o pérdidas de información, permitiendo una atención más
-                   organizada y oportuna para tu mascota.</p>
+                <p>
+                  Tus citas se agendan y se asignan de manera inmediata en la
+                  veterinaria que elijas, lo que permite una sincronización
+                  automática y eficiente. De esta forma, podrás tener registro
+                  de tus citas, evitando errores, cruces de horarios o pérdidas
+                  de información, permitiendo una atención más organizada y
+                  oportuna para tu mascota.
+                </p>
               </div>
             </details>
-            
+
             <details className="faq-item">
               <summary>
                 <div className="faq-icon">🐾</div>
@@ -128,11 +150,16 @@ function HomePage() {
                 <span className="arrow">∨</span>
               </summary>
               <div className="faq-content">
-                <p>Recordatorios de citas veterinarias para tus mascotas que permiten al usuario anticiparse a tiempos, reprogramacion y fechas importantes,
-                  evitando olvidos y asegurando una atención oportuna. Además, facilitan una mejor organización y seguimiento del cuidado veterinario.</p>
+                <p>
+                  Recordatorios de citas veterinarias para tus mascotas que
+                  permiten al usuario anticiparse a tiempos, reprogramacion y
+                  fechas importantes, evitando olvidos y asegurando una atención
+                  oportuna. Además, facilitan una mejor organización y
+                  seguimiento del cuidado veterinario.
+                </p>
               </div>
             </details>
-            
+
             <details className="faq-item">
               <summary>
                 <div className="faq-icon">🐾</div>
@@ -140,12 +167,17 @@ function HomePage() {
                 <span className="arrow">∨</span>
               </summary>
               <div className="faq-content">
-                <p>Al momento de registrar a tu mascota, podrás gestionar su información médica de forma independiente, ya que puedes tener múltiples mascotas
-                  registradas en tu cuenta de usuario. Además, podrás contar con un detalle completo de la información del animal, donde se incluyen todas las
-                  características importantes para su cuidado.</p>
+                <p>
+                  Al momento de registrar a tu mascota, podrás gestionar su
+                  información médica de forma independiente, ya que puedes tener
+                  múltiples mascotas registradas en tu cuenta de usuario.
+                  Además, podrás contar con un detalle completo de la
+                  información del animal, donde se incluyen todas las
+                  características importantes para su cuidado.
+                </p>
               </div>
             </details>
-           
+
             <details className="faq-item">
               <summary>
                 <div className="faq-icon">🐾</div>
@@ -153,8 +185,13 @@ function HomePage() {
                 <span className="arrow">∨</span>
               </summary>
               <div className="faq-content">
-                <p>Las clínicas veterinarias pueden crear perfiles con información sobre sus servicios, horarios y ubicación, facilitando la búsqueda y selección
-                  por parte de los usuarios de la plataforma. Desde allí también podrán reajustar citas y gestionar todo lo que requieran.</p>
+                <p>
+                  Las clínicas veterinarias pueden crear perfiles con
+                  información sobre sus servicios, horarios y ubicación,
+                  facilitando la búsqueda y selección por parte de los usuarios
+                  de la plataforma. Desde allí también podrán reajustar citas y
+                  gestionar todo lo que requieran.
+                </p>
               </div>
             </details>
           </div>
@@ -177,26 +214,30 @@ function HomePage() {
 
       {/* Footer */}
       <footer className="main-footer">
-          <div className="container footer-content">
-            
-            <div className="footer-brand">
-              <h3>Red Pets</h3>
-              <p>Centralizamos servicios veterinarios para que siempre cuides a tus mascotas.</p>
-            </div>
-
-            <div className="footer-contact">
-              <h3>Contacto</h3>
-              <p>soporte@redpets.com</p>
-              <p>+57 123 456 7890</p>
-            </div>
-
+        <div className="container footer-content">
+          <div className="footer-brand">
+            <h3>Red Pets</h3>
+            <p>
+              Centralizamos servicios veterinarios para que siempre cuides a tus
+              mascotas.
+            </p>
           </div>
 
-          {/* Esto debe ir separado para que baje al final */}
-          <div className="footer-bottom">
-            <hr />
-            <p>© 2026 Red Pets. Todos los derechos reservados. Desarrollado por Equipo de Red Pets.</p>
+          <div className="footer-contact">
+            <h3>Contacto</h3>
+            <p>soporte@redpets.com</p>
+            <p>+57 123 456 7890</p>
           </div>
+        </div>
+
+        {/* Esto debe ir separado para que baje al final */}
+        <div className="footer-bottom">
+          <hr />
+          <p>
+            © 2026 Red Pets. Todos los derechos reservados. Desarrollado por
+            Equipo de Red Pets.
+          </p>
+        </div>
       </footer>
     </div>
   );

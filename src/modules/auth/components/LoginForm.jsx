@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
 import apiService from "../../core/resources/GlobalResource";
 import "../styles/LoginForm.css";
@@ -33,6 +33,7 @@ const EyeClosed = (
 );
 
 export default function LoginForm() {
+  const { pathname } = useLocation();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,30 +47,53 @@ export default function LoginForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const registerPath = pathname.toLowerCase().includes("company")
+    ? "/Company/Register"
+    : "/Person/Register";
+
+  const homePath = pathname.toLowerCase().includes("company")
+    ? "/Company/Home"
+    : "/Person/Home";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
+      console.log(formData);
       const response = await apiService.get(`api/User/${formData.username}`);
-      console.log(`La respuesta es: ${response}`);
-
-      if (!response || !response.username || !response.password) {
+      //console.log(`La respuesta es: ${JSON.stringify(response)}`);
+      //console.log(`Datos: ${JSON.stringify(response.data)}`);
+      console.log(response.data[0].username);
+      console.log(response.data[0].password);
+      if (!response.data[0].username || !response.data[0].password) {
+        console.log("primer condicional");
         setModalMessage("El usuario o la contraseña no son válidos.");
         setModalType("error");
       } else if (
-        response.username === formData.username &&
-        response.password === formData.password
+        response.data[0].username === formData.data[0].username &&
+        response.data[0].password === formData.data[0].password
       ) {
-        setPerson(response.person);
-        const user =
-          response.person.names.split(" ")[0] +
-          " " +
-          response.person.surnames.split(" ")[0];
+        console.log("segundo condicional");
+        setPerson(response.data[0].person);
+        const user = () => {
+          if (pathname.toLowerCase().includes("company")) {
+            return response.data[0].company.legalRepresentative;
+          }
+
+          if (pathname.toLowerCase().includes("company")) {
+            return (
+              response.data[0].person.names.split(" ")[0] +
+              " " +
+              response.data.person.surnames.split(" ")[0]
+            );
+          }
+        };
         setModalMessage(`¡Bienvenido ${user}!`);
         setModalType("success");
       } else {
+        console.log("tercer condicional");
         setModalMessage("Credenciales inválidas");
         setModalType("error");
       }
@@ -85,8 +109,8 @@ export default function LoginForm() {
     setModalOpen(false);
 
     if (modalType === "success") {
-      localStorage.setItem("Person", JSON.stringify(person));
-      navigate("/home");
+      localStorage.setItem("User", JSON.stringify(person));
+      navigate(homePath);
     }
   };
 
@@ -123,7 +147,7 @@ export default function LoginForm() {
               <Link to="/RecuperarContraseña" className="login-link">
                 ¿Olvidaste tu contraseña?
               </Link>
-              <Link to="/Person/Register" className="login-link">
+              <Link to={registerPath} className="login-link">
                 Registrarse
               </Link>
             </div>

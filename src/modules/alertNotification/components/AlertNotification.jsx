@@ -4,6 +4,9 @@ import "../styles/AlertNotification.css";
 export default function AlertNotification({ isOpen, message, type, onClose }) {
   if (!isOpen) return null;
 
+  console.log(message);
+  console.log(type);
+
   return (
     <div className="modal-overlay">
       <div className={`modal-content ${type}`}>

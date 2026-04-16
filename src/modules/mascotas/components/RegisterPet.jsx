@@ -23,6 +23,9 @@ export default function RegisterPet() {
     encodedImage: "",
   });
   const [animalTypes, setAnimalTypes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedAnimalType, setSelectedAnimalType] = useState("");
+  const [selectedBreed, setSelectedBreed] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
@@ -36,9 +39,10 @@ export default function RegisterPet() {
   useEffect(() => {
     const fetchAnimalTypes = async () => {
       try {
-        const res = await fetch("/api/animalType/all");
-        const data = await res.json();
-        setAnimalTypes(data);
+        const response = await apiService.get("api/AnimalType/all");
+        console.log(JSON.stringify(response));
+        //const data = await res.json();
+        setAnimalTypes(response.data || []);
         setLoading(false);
       } catch (err) {
         console.error("Error:", err);
@@ -69,7 +73,7 @@ export default function RegisterPet() {
 
   // ← RAZAS del tipo seleccionado (mapeo de tu breedTypes)
   const currentAnimal = animalTypes.find(
-    (animal) => animal.id === parseInt(selectedAnimalType),
+    (animal) => animal.id === parseInt(selectedAnimalType)
   );
   const breeds = currentAnimal
     ? currentAnimal.breedTypes.map((bt) => bt.name)
@@ -94,7 +98,7 @@ export default function RegisterPet() {
     setModalOpen(false);
 
     if (modalType === "success") {
-      navigate("/home");
+      navigate("/Person/Home");
     }
   };
 
@@ -123,6 +127,8 @@ export default function RegisterPet() {
 
     // alert(`Mascota registrada: ${nombre}, ${edad} años, ${raza}`);
   };
+
+  if (loading) return <div>Cargando tipos de animales...</div>;
 
   return (
     <>
@@ -170,7 +176,7 @@ export default function RegisterPet() {
           <label>Tipo de Animal</label>
           <select
             name="animalType"
-            value={selectedAnimalType}
+            value={currentAnimal}
             onChange={handleAnimalChange}
             required
           >

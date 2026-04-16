@@ -4,8 +4,9 @@ import RegistrarEmpresa from "./modules/company/components/RegistrarEmpresa"
 import RegistrarUsuario from "./modules/usuarios/components/RegistrarUsuario";
 import EnConstruccion from "./modules/enConstruccion/components/EnConstruccion";
 import PetList from "./modules/mascotas/components/PetList";
-import RegisterPet from "./modules/mascotas/components/RegisterPet";
-import Home from "./modules/home/components/Home";
+import PetRegister from "./modules/mascotas/components/RegisterPet";
+import PersonHome from "./modules/home/components/Home";
+import CompanyHome from "./modules/company/components/Home";
 import Informative from "./modules/informative/components/Informative";
 import AgendarCita from "./modules/agenda/components/AgendarCita";
 import ModificarCita from "./modules/agenda/components/ModificarCita";
@@ -16,12 +17,15 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Informative />} />
-        <Route path="/Home" element={<Home />}>
-          <Route path="Mascotas/Lista" element={<PetList />} />
-          <Route path="Mascotas/Registrar" element={<RegisterPet />} />
+        <Route path="Person/Home" element={<PersonHome />}>
+          <Route path="PetList" element={<PetList />} />
+          <Route path="PetRegister" element={<PetRegister />} />
           <Route path="AgendarCita" element={<AgendarCita />} />
           <Route path="ModificarCita" element={<ModificarCita />} />
           <Route path="EliminarCita" element={<EliminarCita />} />
+        </Route>
+        <Route path="/Company/Home" element={<CompanyHome />}>
+
         </Route>
         <Route path="/Company/Login" element={<LoginForm />} />
         <Route path="/Company/Register" element={<RegistrarEmpresa />} />

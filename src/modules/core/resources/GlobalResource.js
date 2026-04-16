@@ -24,20 +24,16 @@ const getHeaders = (isJson = true) => {
 };
 
 const handleResponse = async (response) => {
-  console.log(response.headers);
-  const isJson = response.headers
-    .get("Content-Type")
-    ?.includes("application/json");
 
-  const data = isJson ? await response.json() : null; 
+  const contentType = response.headers.get("Content-Type") || "";
+  const isJson = contentType.includes("application/json");
+  const data = isJson ? await response.json() : null;
 
-  // if (!response.ok) {
-  //   const error = data?.message || response.statusText;
-  //   throw new Error(error);
-  // }
-
-  console.log(data);
-  return data;
+  console.log(JSON.stringify(response));
+  return {
+    status: response.status,
+    data,
+  };
 };
 
 const apiService = {
@@ -45,7 +41,7 @@ const apiService = {
     console.log(`${API_BASE_URL}${endpoint}`);
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "GET",
-      headers: getHeaders(true, token)
+      headers: getHeaders(true, token),
     });
     return handleResponse(res);
   },
@@ -54,7 +50,7 @@ const apiService = {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "POST",
       headers: getHeaders(true, token),
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
     return handleResponse(res);
   },
@@ -63,7 +59,7 @@ const apiService = {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "PUT",
       headers: getHeaders(true, token),
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
     return handleResponse(res);
   },
@@ -71,10 +67,10 @@ const apiService = {
   del: async (endpoint, token = null) => {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "DELETE",
-      headers: getHeaders(true, token)
+      headers: getHeaders(true, token),
     });
     return handleResponse(res);
-  }
+  },
 };
 
 export default apiService;

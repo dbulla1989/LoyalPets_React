@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "../styles/RegistrarUsuario.css";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
- 
 
 const EyeOpen = (
   <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
@@ -33,8 +32,8 @@ const EyeClosed = (
 
 function RegistrarUsuario() {
   const [formData, setFormData] = useState({
-    identificationType: "",
-    identification: "",
+    documentType: "",
+    documentNumber: "",
     names: "",
     surnames: "",
     cellPhone: "",
@@ -118,8 +117,8 @@ function RegistrarUsuario() {
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Crear Cuenta</h2>
           <select
-            name="identificationType"
-            value={formData.identificationType}
+            name="documentType"
+            value={formData.documentType}
             onChange={handleChange}
             required
             className="custom-select"
@@ -135,14 +134,14 @@ function RegistrarUsuario() {
 
           <input
             type="text"
-            name="identification"
+            name="documentNumber"
             placeholder="Numero de Identificación"
-            value={formatNumberWithDots(formData.identification)}
+            value={formatNumberWithDots(formData.documentNumber)}
             onChange={(e) => {
               const onlyNums = e.target.value.replace(/\D/g, "");
               setFormData({
                 ...formData,
-                identification: onlyNums,
+                documentNumber: onlyNums,
               });
             }}
             required
@@ -268,7 +267,20 @@ function RegistrarUsuario() {
             Registrarse
           </button>
           <div className="register-links">
-            <a href="Person/Login">¿Ya tienes cuenta?</a>
+            <span
+              onClick={() => {
+                console.log("🚀 Click detectado!");
+                console.log("Navegando a:", "/Person/Login");
+                navigate("Person/Prueba");
+              }}
+              style={{
+                cursor: "pointer",
+                color: "#007bff",
+                textDecoration: "underline",
+              }}
+            >
+              ¿Ya tienes cuenta?
+            </span>
           </div>
         </form>
       </div>
