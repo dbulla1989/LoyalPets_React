@@ -1,6 +1,66 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sidebar {
+  height: 100vh;
+  background: linear-gradient(180deg, #7f1d1d, #dc2626);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s;
+  align-items: flex-start;
+}
+
+.sidebar.open {
+  width: 220px;
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin: 10px;
+  align-self: flex-end;
+}
+
 .pet-list-container {
   display: flex;
   flex-wrap: wrap;
   gap: 24px; /* Espacio entre tarjetas */
   justify-content: flex-start;
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.header {
+  width: 100%;
+  height: 70px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 25px;
+  background: #f9fafb;
+  overflow-y: auto;
 }

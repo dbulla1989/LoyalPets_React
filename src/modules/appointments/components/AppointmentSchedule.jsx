@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import "../styles/ScheduleAppointment.css";
+import "../styles/AppointmentSchedule.css";
 
-/**
- * props:
- * pets: [
- *  { id:1, name:'Firulais', type:'Perro', owner:'Juan' }
- * ]
- */
-export default function AgendarCita({ pets = [] }) {
+export default function AppointmentSchedule({ pets = [] }) {
   const [formData, setFormData] = useState({
     petId: "",
     service: "",

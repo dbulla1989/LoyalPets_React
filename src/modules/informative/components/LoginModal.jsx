@@ -6,12 +6,12 @@ function LoginPageModal({ isOpen, onClose }) {
   const navigate = useNavigate();
 
   const handlePersonLogin = () => {
-    navigate("/person/login");
+    navigate("/Person/Login");
     onClose();
   };
 
   const handleCompanyLogin = () => {
-    navigate("/company/login");
+    navigate("/Company/Login");
     onClose();
   };
 

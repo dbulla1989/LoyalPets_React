@@ -1,35 +1,55 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginForm from "./modules/auth/components/LoginForm";
-import RegisterCompany from "./modules/company/components/RegisterCompany";
-import RegisterPerson from "./modules/person/components/RegisterPerson";
 import PetList from "./modules/pet/components/PetList";
-import PetRegister from "./modules/pet/components/RegisterPet";
-import PersonHome from "./modules/person/components/HomePerson";
-import CompanyHome from "./modules/company/components/HomeCompany";
+import PetRegister from "./modules/pet/components/PetRegister";
+import { PersonHome, PersonModify, PersonRegister } from "./modules/person";
 import Informative from "./modules/informative/components/Informative";
-import ScheduleAppointment from "./modules/appointments/components/ScheduleAppointment";
-import ModifyAppointment from "./modules/appointments/components/ModifyAppointment";
-import CancelAppointment from "./modules/appointments/components/CancelAppointment";
+import {
+  CompanyHome,
+  CompanyModify,
+  CompanyRegister,
+  CompanyRemove,
+} from "./modules/company/";
+import {
+  AppointmentCancel,
+  AppointmentModify,
+  AppointmentSchedule,
+} from "./modules/appointments";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Informative />} />
-        <Route path="Person/Home" element={<PersonHome />}>
-          <Route path="PetList" element={<PetList />} />
-          <Route path="PetRegister" element={<PetRegister />} />
-          <Route path="ScheduleAppointment" element={<ScheduleAppointment />} />
-          <Route path="ModifyAppointment" element={<ModifyAppointment />} />
-          <Route path="CancelAppointment" element={<CancelAppointment />} />
+        <Route path="Person">
+          <Route path="Home" element={<PersonHome />} />
+          <Route path="Login" element={<LoginForm />} />
+          <Route path="Register" element={<PersonRegister />} />
+          <Route path="Pet">
+            <Route path="List" element={<PetList />} />
+            <Route path="Register" element={<PetRegister />} />
+            <Route path="Modify" element={<PetRegister />} />
+            <Route path="Remove" element={<PetRegister />} />
+          </Route>
+          <Route path="Appointment">
+            <Route path="Register" element={<AppointmentSchedule />} />
+            <Route path="Modify" element={<AppointmentModify />} />
+            <Route path="Cancel" element={<AppointmentCancel />} />
+          </Route>
         </Route>
-        <Route path="/Company/Home" element={<CompanyHome />}>
-
+        <Route path="Company">
+          <Route path="Home" element={<CompanyHome />} />
+          <Route path="Login" element={<LoginForm />} />
+          <Route path="Register" element={<CompanyRegister />} />
+          <Route path="Veterinary">
+            <Route path="Register" element={<CompanyRegister />} />
+            <Route path="Modify" element={<CompanyModify />} />
+            <Route path="Remove" element={<CompanyRemove />} />
+          </Route>
+          <Route path="Planner">
+            <Route path="Calendar" element={<CompanyRegister />} />
+          </Route>
         </Route>
-        <Route path="/Company/Login" element={<LoginForm />} />
-        <Route path="/Company/Register" element={<RegisterCompany />} />
-        <Route path="/Person/Login" element={<LoginForm />} />
-        <Route path="/Person/Register" element={<RegisterPerson />} />
       </Routes>
     </Router>
   );

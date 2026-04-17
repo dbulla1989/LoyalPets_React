@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import "../styles/Titulo.css";
 
 function Titulo({ pageTitle }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const person = JSON.parse(localStorage.getItem("Person"));
-  const username =
-    person.names.split(" ")[0] + " " + person.surnames.split(" ")[0];
+  const { pathname } = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("User"));
+  const username = pathname.toLowerCase().includes("company")
+    ? user.legalRepresentative
+    : user.names.split(" ")[0] + " " + user.surnames.split(" ")[0];
 
   const handleAvatarClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -25,9 +27,13 @@ function Titulo({ pageTitle }) {
   };
 
   const handleLogout = () => {
+    const sesionPath = pathname.toLowerCase().includes("company")
+      ? "/Company/Login"
+      : "/Person/Login";
+
     alert("Sesión cerrada.");
     setIsModalOpen(false);
-    navigate("/Login");
+    navigate(sesionPath);
   };
 
   return (

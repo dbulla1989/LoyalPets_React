@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
@@ -61,10 +61,8 @@ export default function LoginForm() {
     setError("");
 
     try {
-      console.log(formData);
       const response = await apiService.get(`api/User/${formData.username}`);
-      //console.log(`La respuesta es: ${JSON.stringify(response)}`);
-      //console.log(`Datos: ${JSON.stringify(response.data)}`);
+
       console.log(response.data[0].username);
       console.log(response.data[0].password);
       if (!response.data[0].username || !response.data[0].password) {
@@ -72,32 +70,40 @@ export default function LoginForm() {
         setModalMessage("El usuario o la contraseña no son válidos.");
         setModalType("error");
       } else if (
-        response.data[0].username === formData.data[0].username &&
-        response.data[0].password === formData.data[0].password
+        response.data[0].username === formData.username &&
+        response.data[0].password === formData.password
       ) {
         console.log("segundo condicional");
-        setPerson(response.data[0].person);
-        const user = () => {
+        console.log(JSON.stringify(response.data[0].person));
+        console.log(JSON.stringify(person));
+        const currentUser = (() => {
           if (pathname.toLowerCase().includes("company")) {
+            setPerson(response.data[0].company);
             return response.data[0].company.legalRepresentative;
           }
 
-          if (pathname.toLowerCase().includes("company")) {
+          if (pathname.toLowerCase().includes("person")) {
+            setPerson(response.data[0].person);
             return (
               response.data[0].person.names.split(" ")[0] +
               " " +
-              response.data.person.surnames.split(" ")[0]
+              response.data[0].person.surnames.split(" ")[0]
             );
           }
-        };
-        setModalMessage(`¡Bienvenido ${user}!`);
+
+          return "Usuario sin identificar";
+        })();
+
+        console.log(currentUser);
+        setModalMessage(`¡Bienvenido ${currentUser}!`);
         setModalType("success");
+        setModalOpen(true);
       } else {
         console.log("tercer condicional");
         setModalMessage("Credenciales inválidas");
         setModalType("error");
+        setModalOpen(true);
       }
-      setModalOpen(true);
     } catch (err) {
       setError(err.message || "Error al iniciar sesión");
     } finally {

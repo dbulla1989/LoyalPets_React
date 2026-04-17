@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/CancelAppointment.css";
+import "../styles/AppointmentCancel.css";
 
-export default function EliminarCita({ pets = [], histories = [] }) {
+export default function AppointmentCancel({ pets = [], histories = [] }) {
   const [selectedPetId, setSelectedPetId] = useState("");
 
   // Filtrar historial por mascota

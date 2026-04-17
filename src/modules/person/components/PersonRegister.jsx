@@ -1,8 +1,8 @@
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/RegistrarEmpresa.css";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import "../styles/PersonRegister.css";
 
 const EyeOpen = (
   <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
@@ -30,12 +30,12 @@ const EyeClosed = (
   </svg>
 );
 
-function RegistrarEmpresa() {
+function RegistrarUsuario() {
   const [formData, setFormData] = useState({
     documentType: "",
     documentNumber: "",
-    companyName: "",
-    legalRepresentative: "",
+    names: "",
+    surnames: "",
     cellPhone: "",
     email: "",
     password: "",
@@ -54,26 +54,11 @@ function RegistrarEmpresa() {
   const isCellphoneValid = formData.cellPhone.length === 10;
 
   const navigate = useNavigate();
-  const cleanDigits = (value) => value.replace(/\D/g, "");
 
-  const formatWithDotsAndDash = (value) => {
-    const digits = cleanDigits(value);
-    if (!digits) return "";
-    if (digits.length <= 9) return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return (
-      digits.slice(0, 9).replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
-      "-" +
-      digits.slice(9, 10)
-    );
-  };
-
-  const handleIdTypeChange = (e) => {
-    const value = e.target.value;
-    setFormData((prev) => ({
-      ...prev,
-      idType: value,
-      documentNumber: "",
-    }));
+  const formatNumberWithDots = (value) => {
+    if (!value) return "";
+    value = value.replace(/^0+/, "");
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   const passwordsMatch = formData.password === formData.confirmPassword;
@@ -84,28 +69,14 @@ function RegistrarEmpresa() {
     setModalOpen(false);
 
     if (modalType === "success") {
-      navigate("/Company/Login");
+      navigate("/Person/Login");
     }
   };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const handleIdentificationChange = (e) => {
-    const raw = e.target.value;
-    const onlyNums = cleanDigits(raw);
-    const maxDigits = formData.idType === "NIT" ? 9 : 10;
-
-    if (onlyNums.length <= maxDigits) {
-      setFormData((prev) => ({
-        ...prev,
-        documentNumber: onlyNums,
-      }));
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -123,23 +94,23 @@ function RegistrarEmpresa() {
       },
     };
 
-    console.log("Registrando empresa:", updatedFormData);
+    console.log("Registrando usuario:", updatedFormData);
 
     try {
-      const response = await apiService.post("api/company", updatedFormData);
+      const response = await apiService.post("api/person", updatedFormData);
 
-      console.log("respuesta del backend:"+ response.status);
-      console.log("respuesta del backend:"+ response.data);
+      console.log("respuesta del backend:" + response.status);
+      console.log("respuesta del backend:" + response.data);
 
       if (response.status === 200) {
-        setModalMessage("¡Clinica registrada exitosamente!");
+        setModalMessage("¡Usuario registrado exitosamente!");
         setModalType("success");
-      } 
+      }
 
       if (response.status === 400) {
-        setModalMessage("¡La clinica ya se encuentra registrada!");
+        setModalMessage("¡El usuario ya se encuentra registrado!");
         setModalType("error");
-      } 
+      }
 
       setModalOpen(true);
     } catch (err) {
@@ -162,33 +133,41 @@ function RegistrarEmpresa() {
             <option value="" disabled>
               Selecciona tipo de identificación
             </option>
-            <option value="NT">NIT</option>
-            <option value="RT">RUT</option>
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="PS">Pasaporte</option>
+            <option value="PP">Permiso de Permanencia</option>
           </select>
 
           <input
             type="text"
             name="documentNumber"
             placeholder="Numero de Identificación"
-            value={formatWithDotsAndDash(formData.documentNumber)}
-            onChange={handleIdentificationChange}
+            value={formatNumberWithDots(formData.documentNumber)}
+            onChange={(e) => {
+              const onlyNums = e.target.value.replace(/\D/g, "");
+              setFormData({
+                ...formData,
+                documentNumber: onlyNums,
+              });
+            }}
             required
           />
 
           <input
             type="text"
-            name="companyName"
-            placeholder="Razón Social"
-            value={formData.companyName}
+            name="names"
+            placeholder="Nombres"
+            value={formData.names}
             onChange={handleChange}
             required
           />
 
           <input
             type="text"
-            name="legalRepresentative"
-            placeholder="Representante Legal"
-            value={formData.legalRepresentative}
+            name="surnames"
+            placeholder="Apellidos"
+            value={formData.surnames}
             onChange={handleChange}
             required
           />
@@ -221,6 +200,7 @@ function RegistrarEmpresa() {
           <input
             type="email"
             name="email"
+            autoComplete="email"
             placeholder="Correo Electrónico"
             value={formData.email}
             onChange={handleChange}
@@ -230,6 +210,7 @@ function RegistrarEmpresa() {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="new-password"
               placeholder="Contraseña"
               value={formData.password}
               onChange={handleChange}
@@ -258,6 +239,7 @@ function RegistrarEmpresa() {
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
+              autoComplete="new-password"
               placeholder="Confirmar Contraseña"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -299,7 +281,7 @@ function RegistrarEmpresa() {
               onClick={() => {
                 console.log("🚀 Click detectado!");
                 console.log("Navegando a:", "/Person/Login");
-                navigate("/Company/Login");
+                navigate("Person/Prueba");
               }}
               style={{
                 cursor: "pointer",
@@ -307,7 +289,7 @@ function RegistrarEmpresa() {
                 textDecoration: "underline",
               }}
             >
-              ¿Ya tienes cuenta? [DEBUG]
+              ¿Ya tienes cuenta?
             </span>
           </div>
         </form>
@@ -322,4 +304,4 @@ function RegistrarEmpresa() {
   );
 }
 
-export default RegistrarEmpresa;
+export default RegistrarUsuario;

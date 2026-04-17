@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/ModifyAppointment.css";
+import "../styles/AppointmentModify.css";
 
 /**
  * SOLO MODIFICAR Y ELIMINAR CITAS
@@ -7,7 +7,7 @@ import "../styles/ModifyAppointment.css";
  * appointments: lista de citas
  * setAppointments: función para actualizar citas (estado global o padre)
  */
-export default function ModificarCita({ appointments = [], setAppointments, pets = [] }) {
+export default function AppointmentModify({ appointments = [], setAppointments, pets = [] }) {
   const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({

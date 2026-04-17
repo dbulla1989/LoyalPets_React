@@ -20,76 +20,151 @@ import { GrDocumentUpdate } from "react-icons/gr";
 import { TbCalendarCancel } from "react-icons/tb";
 import { MdOutlineHistory } from "react-icons/md";
 
-const menuItems = [
-  {
-    path: "/home",
-    name: "Inicio",
-    icon: <FaHome />,
-  },
-  {
-    name: "Mascotas",
-    icon: <FaPaw />,
-    subItems: [
-      {
-        path: "/Home/Mascotas/Lista",
-        name: "Mis Mascotas",
-        icon: <FaUser />,
-      },
-      {
-        path: "/Home/Mascotas/Registrar",
-        name: "Registrar Mascota",
-        icon: <FaBars />,
-      },
-    ],
-  },
-  {
-    name: "Agendas",
-    icon: <ImAddressBook />,
-    subItems: [
-      {
-        path: "/Home/AgendarCita",
-        name: "Agendar Citas",
-        icon: <MdAssignmentAdd />,
-      },
-      {
-        path: "/Home/ModificarCita",
-        name: "Modificar Citas",
-        icon: <GrDocumentUpdate />,
-      },
-      {
-        path: "/Home/EliminarCita",
-        name: "Historial Médico",
-        icon: <MdOutlineHistory />,
-      },
-    ],
-  },
-  {
-    name: "Configuración",
-    icon: <FaCog />,
-    subItems: [
-      {
-        path: "/configuracion/notificaciones",
-        name: "Notificaciones",
-        icon: <FaBell />,
-      },
-      {
-        path: "/configuracion/privacidad",
-        name: "Privacidad",
-        icon: <FaLock />,
-      },
-    ],
-  },
-  {
-    path: "/ayuda",
-    name: "Ayuda",
-    icon: <FaQuestionCircle />,
-  },
-];
-
 function Menu() {
   const [isOpen, setIsOpen] = useState(true);
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const location = useLocation();
+
+  const companyMenu = [
+    {
+      path: "/Company/Home",
+      name: "Inicio",
+      icon: <FaHome />,
+    },
+    {
+      name: "Sedes",
+      icon: <FaPaw />,
+      subItems: [
+        {
+          path: "/Company/Veterinary/Add",
+          name: "Registrar Sede",
+          icon: <FaUser />,
+        },
+        {
+          path: "/Company/Veterinary/Modify",
+          name: "Modificar Sede",
+          icon: <FaBars />,
+        },
+        {
+          path: "/Company/Veterinary/Remove",
+          name: "Eliminar Sede",
+          icon: <FaBars />,
+        },
+      ],
+    },
+    {
+      name: "Agenda",
+      icon: <ImAddressBook />,
+      subItems: [
+        {
+          path: "/Company/Planner/List",
+          name: "Mi Agenda",
+          icon: <MdAssignmentAdd />,
+        },
+      ],
+    },
+    {
+      name: "Configuración",
+      icon: <FaCog />,
+      subItems: [
+        {
+          path: "/configuracion/notificaciones",
+          name: "Notificaciones",
+          icon: <FaBell />,
+        },
+        {
+          path: "/configuracion/privacidad",
+          name: "Privacidad",
+          icon: <FaLock />,
+        },
+      ],
+    },
+    {
+      path: "/ayuda",
+      name: "Ayuda",
+      icon: <FaQuestionCircle />,
+    },
+  ];
+
+  const personMenu = [
+    {
+      path: "/Person/Home",
+      name: "Inicio",
+      icon: <FaHome />,
+    },
+    {
+      name: "Mascotas",
+      icon: <FaPaw />,
+      subItems: [
+        {
+          path: "/Person/Pet/List",
+          name: "Mis Mascotas",
+          icon: <FaUser />,
+        },
+        {
+          path: "/Person/Pet/Add",
+          name: "Registrar Mascota",
+          icon: <FaBars />,
+        },
+        {
+          path: "/Person/Pet/Modify",
+          name: "Modificar Mascota",
+          icon: <FaBars />,
+        },
+        {
+          path: "/Person/Pet/Remove",
+          name: "Eliminar Mascota",
+          icon: <FaBars />,
+        },
+      ],
+    },
+    {
+      name: "Agendas",
+      icon: <ImAddressBook />,
+      subItems: [
+        {
+          path: "/Person/Appointment/Add",
+          name: "Agendar Cita",
+          icon: <MdAssignmentAdd />,
+        },
+        {
+          path: "/Person/Appointment/Modify",
+          name: "Modificar Citas",
+          icon: <GrDocumentUpdate />,
+        },
+        {
+          path: "/Person/Appointment/Cancel",
+          name: "Cancelar Cita",
+          icon: <MdOutlineHistory />,
+        },
+      ],
+    },
+    {
+      name: "Configuración",
+      icon: <FaCog />,
+      subItems: [
+        {
+          path: "/configuracion/notificaciones",
+          name: "Notificaciones",
+          icon: <FaBell />,
+        },
+        {
+          path: "/configuracion/privacidad",
+          name: "Privacidad",
+          icon: <FaLock />,
+        },
+      ],
+    },
+    {
+      path: "/ayuda",
+      name: "Ayuda",
+      icon: <FaQuestionCircle />,
+    },
+  ];
+
+  const menuItems = location.pathname.toLowerCase().includes("company")
+    ? companyMenu
+    : personMenu;
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
 
@@ -99,11 +174,6 @@ function Menu() {
 
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      {/* <div className="top-section">
-        <button className="toggle-button" onClick={toggleSidebar}>
-          <FaBars />
-        </button>
-      </div> */}
       <nav className="menu">
         {menuItems.map((item, idx) =>
           item.subItems ? (

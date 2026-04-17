@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
 import { FaBars, FaCalendarPlus, FaUsers, FaClock, FaClipboardList } from "react-icons/fa";
-import "../styles/HomePerson.css";
+import "../styles/PersonHome.css";
 
-function Home() {
+function HomePerson() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen((open) => !open);
 
@@ -84,4 +84,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePerson;

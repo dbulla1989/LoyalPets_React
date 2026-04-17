@@ -1,18 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/RegisterPet.css";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import "../styles/PetRegister.css";
 
-const petsType = [
-  "Labrador Retriever",
-  "Bulldog",
-  "Poodle",
-  "Golden Retriever",
-  "Chihuahua",
-  "Otro",
-];
-
-export default function RegisterPet() {
+export default function PetRegister() {
   const person = JSON.parse(localStorage.getItem("Person"));
   const [formData, setFormData] = useState({
     personId: person.id,

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ModificarUsuario() {
+function CompanyRemove() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function ModificarUsuario() {
   )
 }
 
-export default ModificarUsuario
+export default CompanyRemove
