@@ -36,7 +36,7 @@ function Menu() {
       icon: <FaPaw />,
       subItems: [
         {
-          path: "/Company/Veterinary/Add",
+          path: "/Company/Veterinary/Register",
           name: "Registrar Sede",
           icon: <FaUser />,
         },
@@ -57,7 +57,7 @@ function Menu() {
       icon: <ImAddressBook />,
       subItems: [
         {
-          path: "/Company/Planner/List",
+          path: "/Company/Planner/Calendar",
           name: "Mi Agenda",
           icon: <MdAssignmentAdd />,
         },
@@ -102,7 +102,7 @@ function Menu() {
           icon: <FaUser />,
         },
         {
-          path: "/Person/Pet/Add",
+          path: "/Person/Pet/Register",
           name: "Registrar Mascota",
           icon: <FaBars />,
         },
@@ -123,7 +123,7 @@ function Menu() {
       icon: <ImAddressBook />,
       subItems: [
         {
-          path: "/Person/Appointment/Add",
+          path: "/Person/Appointment/Register",
           name: "Agendar Cita",
           icon: <MdAssignmentAdd />,
         },

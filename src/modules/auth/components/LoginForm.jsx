@@ -55,6 +55,10 @@ export default function LoginForm() {
     ? "/Company/Home"
     : "/Person/Home";
 
+  const resetPasswordPath = pathname.toLowerCase().includes("company")
+    ? "/Company/ResetPassword"
+    : "/Person/ResetPassword";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -62,20 +66,14 @@ export default function LoginForm() {
 
     try {
       const response = await apiService.get(`api/User/${formData.username}`);
-
-      console.log(response.data[0].username);
-      console.log(response.data[0].password);
+      console.log(response);
       if (!response.data[0].username || !response.data[0].password) {
-        console.log("primer condicional");
         setModalMessage("El usuario o la contraseña no son válidos.");
         setModalType("error");
       } else if (
         response.data[0].username === formData.username &&
         response.data[0].password === formData.password
       ) {
-        console.log("segundo condicional");
-        console.log(JSON.stringify(response.data[0].person));
-        console.log(JSON.stringify(person));
         const currentUser = (() => {
           if (pathname.toLowerCase().includes("company")) {
             setPerson(response.data[0].company);
@@ -150,7 +148,7 @@ export default function LoginForm() {
               Entrar
             </button>
             <div className="login-links">
-              <Link to="/RecuperarContraseña" className="login-link">
+              <Link to={resetPasswordPath} className="login-link">
                 ¿Olvidaste tu contraseña?
               </Link>
               <Link to={registerPath} className="login-link">

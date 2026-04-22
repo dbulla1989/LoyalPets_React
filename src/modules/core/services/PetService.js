@@ -2,15 +2,16 @@ import apiService from "../resources/GlobalResource";
 
 const petService = {
   getPets: async () => {
-    const person = JSON.parse(localStorage.getItem("Person"));
+    const user = JSON.parse(localStorage.getItem("User"));
 
-    const res = await apiService.get(`api/pet/all/${person.id}`);
+    const res = await apiService.get(`api/pet/all/${user.personId}`);
     console.log(res);
     return res;
   },
 
-  getPetByPerson: async (personId) => {
-    const res = apiService.get(`api/pet/${personId}`);
+  getPetByPerson: async () => {
+    const user = JSON.parse(localStorage.getItem("User"));
+    const res = apiService.get(`api/pet/${user.personId}`);
     return res;
   },
 };

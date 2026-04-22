@@ -12,6 +12,9 @@ const PetCard = ({ pet }) => {
       <div className="pet-info">
         <h3>{pet.name}</h3>
         <p>
+          <strong>Tipo de Animal:</strong> {pet.animalType}
+        </p>
+        <p>
           <strong>Raza:</strong> {pet.breed}
         </p>
         <p>

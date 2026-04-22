@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import SecurityQuestion from "../../auth/components/SecurityQuestion";
 import "../styles/CompanyRegister.css";
 
 const EyeOpen = (
@@ -30,7 +31,7 @@ const EyeClosed = (
   </svg>
 );
 
-function RegistrarEmpresa() {
+function CompanyRegister() {
   const [formData, setFormData] = useState({
     documentType: "",
     documentNumber: "",
@@ -43,9 +44,17 @@ function RegistrarEmpresa() {
     userRequest: {
       username: "",
       password: "",
+      securityQuestions: [
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+      ],
     },
   });
 
+  const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -67,6 +76,64 @@ function RegistrarEmpresa() {
     );
   };
 
+  const handleSecurityChange = (index, field, value) => {
+    const updated = [...formData.userRequest.securityQuestions];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      userRequest: {
+        ...prev.userRequest,
+        securityQuestions: updated,
+      },
+    }));
+  };
+
+  const validateStep = () => {
+    console.log(step);
+
+    if (step === 1) {
+      return (
+        formData.documentType &&
+        formData.documentNumber &&
+        formData.companyName &&
+        formData.legalRepresentative &&
+        formData.cellPhone &&
+        isCellphoneValid &&
+        formData.email
+      );
+    }
+
+    if (step === 2) {
+      return formData.userRequest.securityQuestions.every(
+        (q) => q.question && q.answer,
+      );
+    }
+
+    if (step === 3) {
+      return formData.password && formData.confirmPassword && passwordsMatch;
+    }
+
+    return false;
+  };
+
+  const nextStep = () => {
+    if (!validateStep()) return;
+    setStep((prev) => prev + 1);
+  };
+
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+  };
+
+  const formatCellPhone = (value) => {
+    if (!value) return "";
+    return `${value.slice(0, 3)} ${value.slice(3, 6)} ${value.slice(6)}`;
+  };
+
   const handleIdTypeChange = (e) => {
     const value = e.target.value;
     setFormData((prev) => ({
@@ -79,6 +146,10 @@ function RegistrarEmpresa() {
   const passwordsMatch = formData.password === formData.confirmPassword;
 
   const canSubmit = passwordsMatch && isCellphoneValid;
+
+  const handleCancel = () => {
+    navigate("/Company/Login");
+  };
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -115,21 +186,19 @@ function RegistrarEmpresa() {
       return;
     }
 
-    const updatedFormData = {
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       userRequest: {
+        ...prev.userRequest,
         username: formData.email,
         password: formData.password,
       },
-    };
+    }));
 
-    console.log("Registrando empresa:", updatedFormData);
+    console.log(formData);
 
     try {
-      const response = await apiService.post("api/company", updatedFormData);
-
-      console.log("respuesta del backend:" + response.status);
-      console.log("respuesta del backend:" + response.data);
+      const response = await apiService.post("api/company", formData);
 
       if (response.status === 200) {
         setModalMessage("¡Clinica registrada exitosamente!");
@@ -152,148 +221,199 @@ function RegistrarEmpresa() {
       <div className="register-container">
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Crear Cuenta</h2>
-          <select
-            name="documentType"
-            value={formData.documentType}
-            onChange={handleChange}
-            required
-            className="custom-select"
-          >
-            <option value="" disabled>
-              Selecciona tipo de identificación
-            </option>
-            <option value="NT">NIT</option>
-            <option value="RT">RUT</option>
-          </select>
+          {step === 1 && (
+            <>
+              <select
+                name="documentType"
+                value={formData.documentType}
+                onChange={handleChange}
+                required
+                className="custom-select"
+              >
+                <option value="" disabled>
+                  Selecciona tipo de identificación
+                </option>
+                <option value="NT">NIT</option>
+                <option value="RT">RUT</option>
+              </select>
 
-          <input
-            type="text"
-            name="documentNumber"
-            placeholder="Numero de Identificación"
-            value={formatWithDotsAndDash(formData.documentNumber)}
-            onChange={handleIdentificationChange}
-            required
-          />
+              <input
+                type="text"
+                name="documentNumber"
+                placeholder="Numero de Identificación"
+                value={formatWithDotsAndDash(formData.documentNumber)}
+                onChange={handleIdentificationChange}
+                required
+              />
 
-          <input
-            type="text"
-            name="companyName"
-            placeholder="Razón Social"
-            value={formData.companyName}
-            onChange={handleChange}
-            required
-          />
+              <input
+                type="text"
+                name="companyName"
+                placeholder="Razón Social"
+                value={formData.companyName}
+                onChange={handleChange}
+                required
+              />
 
-          <input
-            type="text"
-            name="legalRepresentative"
-            placeholder="Representante Legal"
-            value={formData.legalRepresentative}
-            onChange={handleChange}
-            required
-          />
+              <input
+                type="text"
+                name="legalRepresentative"
+                placeholder="Representante Legal"
+                value={formData.legalRepresentative}
+                onChange={handleChange}
+                required
+              />
 
-          <input
-            type="text"
-            name="cellPhone"
-            placeholder="Telefono Celular"
-            value={formData.cellPhone}
-            onChange={(e) => {
-              const onlyNums = e.target.value.replace(/\D/g, "");
-              if (onlyNums.length <= 10) {
-                setFormData({
-                  ...formData,
-                  cellPhone: onlyNums,
-                });
-              }
-            }}
-            required
-          />
+              <input
+                type="text"
+                name="cellPhone"
+                placeholder="Telefono Celular"
+                value={formatCellPhone(formData.cellPhone)}
+                onChange={(e) => {
+                  const onlyNums = e.target.value.replace(/\D/g, "");
+                  if (onlyNums.length <= 10) {
+                    setFormData({
+                      ...formData,
+                      cellPhone: onlyNums,
+                    });
+                  }
+                }}
+                required
+              />
 
-          {formData.cellPhone && !isCellphoneValid && (
-            <div
-              style={{ color: "red", marginBottom: "1rem", fontWeight: "bold" }}
-            >
-              El teléfono celular debe tener exactamente 10 dígitos
-            </div>
+              {formData.cellPhone && !isCellphoneValid && (
+                <div
+                  style={{
+                    color: "red",
+                    marginBottom: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  El teléfono celular debe tener exactamente 10 dígitos
+                </div>
+              )}
+
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                placeholder="Correo Electrónico"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+
+              <div className="step-buttons">
+                <button
+                  type="button"
+                  className="btn-back"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </button>
+                <button type="button" className="btn-next" onClick={nextStep}>
+                  Continuar
+                </button>
+              </div>
+            </>
           )}
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo Electrónico"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <div style={{ position: "relative" }}>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              style={{ paddingRight: "2.5rem" }}
+          {step === 2 && (
+            <SecurityQuestion
+              questions={formData.userRequest.securityQuestions}
+              onChangeQuestion={handleSecurityChange}
+              onBack={prevStep}
+              onNext={nextStep}
             />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={{
-                position: "absolute",
-                right: "0.8rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={0}
-              aria-label={
-                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-              }
-            >
-              {showPassword ? EyeOpen : EyeClosed}
-            </span>
-          </div>
-          <div style={{ position: "relative" }}>
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Confirmar Contraseña"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              style={{ paddingRight: "2.5rem" }}
-            />
-            <span
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              style={{
-                position: "absolute",
-                right: "0.8rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={0}
-              aria-label={
-                showConfirmPassword
-                  ? "Ocultar contraseña"
-                  : "Mostrar contraseña"
-              }
-            >
-              {showConfirmPassword ? EyeOpen : EyeClosed}
-            </span>
-          </div>
-          {!passwordsMatch && (
-            <div
-              style={{ color: "red", marginBottom: "1rem", fontWeight: "bold" }}
-            >
-              Las contraseñas no coinciden
-            </div>
           )}
-          <button type="submit" disabled={!canSubmit}>
-            Registrarse
-          </button>
+
+          {step === 3 && (
+            <>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  autoComplete="new-password"
+                  placeholder="Contraseña"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  style={{ paddingRight: "2.5rem" }}
+                />
+                <span
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  style={{
+                    position: "absolute",
+                    right: "0.8rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                  tabIndex={0}
+                  aria-label={
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
+                >
+                  {showPassword ? EyeOpen : EyeClosed}
+                </span>
+              </div>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  autoComplete="new-password"
+                  placeholder="Confirmar Contraseña"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  style={{ paddingRight: "2.5rem" }}
+                />
+                <span
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  style={{
+                    position: "absolute",
+                    right: "0.8rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                  tabIndex={0}
+                  aria-label={
+                    showConfirmPassword
+                      ? "Ocultar contraseña"
+                      : "Mostrar contraseña"
+                  }
+                >
+                  {showConfirmPassword ? EyeOpen : EyeClosed}
+                </span>
+              </div>
+              {!passwordsMatch && (
+                <div
+                  style={{
+                    color: "red",
+                    marginBottom: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Las contraseñas no coinciden
+                </div>
+              )}
+              {/* <button type="submit" disabled={!canSubmit}>
+                Registrarse
+              </button> */}
+              <div className="step-buttons">
+                <button type="button" className="btn-cancel" onClick={prevStep}>
+                  Retroceder
+                </button>
+                <button type="submit" className="btn-submit">
+                  Registrar
+                </button>
+              </div>
+            </>
+          )}
+
           <div className="register-links">
             <span
               onClick={() => navigate("/Company/Login")}
@@ -318,4 +438,4 @@ function RegistrarEmpresa() {
   );
 }
 
-export default RegistrarEmpresa;
+export default CompanyRegister;

@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import SecurityQuestion from "../../auth/components/SecurityQuestion";
 import "../styles/PersonRegister.css";
 
 const EyeOpen = (
@@ -30,7 +31,7 @@ const EyeClosed = (
   </svg>
 );
 
-function RegistrarUsuario() {
+function PersonRegister() {
   const [formData, setFormData] = useState({
     documentType: "",
     documentNumber: "",
@@ -43,15 +44,25 @@ function RegistrarUsuario() {
     userRequest: {
       username: "",
       password: "",
+      securityQuestions: [
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+      ],
     },
   });
 
+  const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
   const isCellphoneValid = formData.cellPhone.length === 10;
+  const passwordsMatch = formData.password === formData.confirmPassword;
+  const canSubmit = passwordsMatch && isCellphoneValid;
 
   const navigate = useNavigate();
 
@@ -61,9 +72,62 @@ function RegistrarUsuario() {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const passwordsMatch = formData.password === formData.confirmPassword;
+  const handleSecurityChange = (index, field, value) => {
+    const updated = [...formData.userRequest.securityQuestions];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
 
-  const canSubmit = passwordsMatch && isCellphoneValid;
+    setFormData((prev) => ({
+      ...prev,
+      userRequest: {
+        ...prev.userRequest,
+        securityQuestions: updated,
+      },
+    }));
+  };
+
+  const validateStep = () => {
+    console.log(step);
+
+    if (step === 1) {
+      return (
+        formData.documentType &&
+        formData.documentNumber &&
+        formData.names &&
+        formData.surnames &&
+        formData.cellPhone &&
+        isCellphoneValid &&
+        formData.email
+      );
+    }
+
+    if (step === 2) {
+      return formData.userRequest.securityQuestions.every(
+        (q) => q.question && q.answer,
+      );
+    }
+
+    if (step === 3) {
+      return formData.password && formData.confirmPassword && passwordsMatch;
+    }
+
+    return false;
+  };
+
+  const nextStep = () => {
+    if (!validateStep()) return;
+    setStep((prev) => prev + 1);
+  };
+
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+  };
+
+  const handleCancel = () => {
+    navigate("/Person/Login");
+  };
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -86,21 +150,19 @@ function RegistrarUsuario() {
       return;
     }
 
-    const updatedFormData = {
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       userRequest: {
+        ...prev.userRequest,
         username: formData.email,
         password: formData.password,
       },
-    };
+    }));
 
-    console.log("Registrando usuario:", updatedFormData);
+    console.log(formData);
 
     try {
-      const response = await apiService.post("api/person", updatedFormData);
-
-      console.log("respuesta del backend:" + response.status);
-      console.log("respuesta del backend:" + response.data);
+      const response = await apiService.post("api/person", formData);
 
       if (response.status === 200) {
         setModalMessage("¡Usuario registrado exitosamente!");
@@ -123,166 +185,211 @@ function RegistrarUsuario() {
       <div className="register-container">
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Crear Cuenta</h2>
-          <select
-            name="documentType"
-            value={formData.documentType}
-            onChange={handleChange}
-            required
-            className="custom-select"
-          >
-            <option value="" disabled>
-              Selecciona tipo de identificación
-            </option>
-            <option value="CC">Cédula de Ciudadanía</option>
-            <option value="CE">Cédula de Extranjería</option>
-            <option value="PS">Pasaporte</option>
-            <option value="PP">Permiso de Permanencia</option>
-          </select>
+          {step === 1 && (
+            <>
+              <h3>Datos Básicos</h3>
+              <select
+                name="documentType"
+                value={formData.documentType}
+                onChange={handleChange}
+                required
+                className="custom-select"
+              >
+                <option value="" disabled>
+                  Selecciona tipo de identificación
+                </option>
+                <option value="CC">Cédula de Ciudadanía</option>
+                <option value="CE">Cédula de Extranjería</option>
+                <option value="PS">Pasaporte</option>
+                <option value="PP">Permiso de Permanencia</option>
+              </select>
 
-          <input
-            type="text"
-            name="documentNumber"
-            placeholder="Numero de Identificación"
-            value={formatNumberWithDots(formData.documentNumber)}
-            onChange={(e) => {
-              const onlyNums = e.target.value.replace(/\D/g, "");
-              setFormData({
-                ...formData,
-                documentNumber: onlyNums,
-              });
-            }}
-            required
-          />
+              <input
+                type="text"
+                name="documentNumber"
+                placeholder="Numero de Identificación"
+                value={formatNumberWithDots(formData.documentNumber)}
+                onChange={(e) => {
+                  const onlyNums = e.target.value.replace(/\D/g, "");
+                  if (onlyNums.length <= 10) {
+                    setFormData({
+                      ...formData,
+                      documentNumber: onlyNums,
+                    });
+                  }
+                }}
+                required
+              />
 
-          <input
-            type="text"
-            name="names"
-            placeholder="Nombres"
-            value={formData.names}
-            onChange={handleChange}
-            required
-          />
+              <input
+                type="text"
+                name="names"
+                placeholder="Nombres"
+                value={formData.names}
+                onChange={handleChange}
+                required
+              />
 
-          <input
-            type="text"
-            name="surnames"
-            placeholder="Apellidos"
-            value={formData.surnames}
-            onChange={handleChange}
-            required
-          />
+              <input
+                type="text"
+                name="surnames"
+                placeholder="Apellidos"
+                value={formData.surnames}
+                onChange={handleChange}
+                required
+              />
 
-          <input
-            type="text"
-            name="cellPhone"
-            placeholder="Telefono Celular"
-            value={formData.cellPhone}
-            onChange={(e) => {
-              const onlyNums = e.target.value.replace(/\D/g, "");
-              if (onlyNums.length <= 10) {
-                setFormData({
-                  ...formData,
-                  cellPhone: onlyNums,
-                });
-              }
-            }}
-            required
-          />
+              <input
+                type="text"
+                name="cellPhone"
+                placeholder="Telefono Celular"
+                value={formData.cellPhone}
+                onChange={(e) => {
+                  const onlyNums = e.target.value.replace(/\D/g, "");
+                  if (onlyNums.length <= 10) {
+                    setFormData({
+                      ...formData,
+                      cellPhone: onlyNums,
+                    });
+                  }
+                }}
+                required
+              />
 
-          {formData.cellPhone && !isCellphoneValid && (
-            <div
-              style={{ color: "red", marginBottom: "1rem", fontWeight: "bold" }}
-            >
-              El teléfono celular debe tener exactamente 10 dígitos
-            </div>
+              {formData.cellPhone && !isCellphoneValid && (
+                <div
+                  style={{
+                    color: "red",
+                    marginBottom: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  El teléfono celular debe tener exactamente 10 dígitos
+                </div>
+              )}
+
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                placeholder="Correo Electrónico"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+
+              <div className="step-buttons">
+                <button
+                  type="button"
+                  className="btn-back"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </button>
+                <button type="button" className="btn-next" onClick={nextStep}>
+                  Continuar
+                </button>
+              </div>
+            </>
           )}
 
-          <input
-            type="email"
-            name="email"
-            autoComplete="email"
-            placeholder="Correo Electrónico"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <div style={{ position: "relative" }}>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              autoComplete="new-password"
-              placeholder="Contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              style={{ paddingRight: "2.5rem" }}
+          {step === 2 && (
+            <SecurityQuestion
+              questions={formData.userRequest.securityQuestions}
+              onChangeQuestion={handleSecurityChange}
+              onBack={prevStep}
+              onNext={nextStep}
             />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={{
-                position: "absolute",
-                right: "0.8rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={0}
-              aria-label={
-                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-              }
-            >
-              {showPassword ? EyeOpen : EyeClosed}
-            </span>
-          </div>
-          <div style={{ position: "relative" }}>
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              autoComplete="new-password"
-              placeholder="Confirmar Contraseña"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              style={{ paddingRight: "2.5rem" }}
-            />
-            <span
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              style={{
-                position: "absolute",
-                right: "0.8rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={0}
-              aria-label={
-                showConfirmPassword
-                  ? "Ocultar contraseña"
-                  : "Mostrar contraseña"
-              }
-            >
-              {showConfirmPassword ? EyeOpen : EyeClosed}
-            </span>
-          </div>
-          {!passwordsMatch && (
-            <div
-              style={{ color: "red", marginBottom: "1rem", fontWeight: "bold" }}
-            >
-              Las contraseñas no coinciden
-            </div>
           )}
-          <button type="submit" disabled={!canSubmit}>
-            Registrarse
-          </button>
+
+          {step === 3 && (
+            <>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  autoComplete="new-password"
+                  placeholder="Contraseña"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  style={{ paddingRight: "2.5rem" }}
+                />
+                <span
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  style={{
+                    position: "absolute",
+                    right: "0.8rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                  tabIndex={0}
+                  aria-label={
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
+                >
+                  {showPassword ? EyeOpen : EyeClosed}
+                </span>
+              </div>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  autoComplete="new-password"
+                  placeholder="Confirmar Contraseña"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  style={{ paddingRight: "2.5rem" }}
+                />
+                <span
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  style={{
+                    position: "absolute",
+                    right: "0.8rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                  tabIndex={0}
+                  aria-label={
+                    showConfirmPassword
+                      ? "Ocultar contraseña"
+                      : "Mostrar contraseña"
+                  }
+                >
+                  {showConfirmPassword ? EyeOpen : EyeClosed}
+                </span>
+              </div>
+              {!passwordsMatch && (
+                <div
+                  style={{
+                    color: "red",
+                    marginBottom: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Las contraseñas no coinciden
+                </div>
+              )}
+
+              <div className="step-buttons">
+                <button type="button" className="btn-cancel" onClick={prevStep}>
+                  Retroceder
+                </button>
+                <button type="submit" className="btn-submit">
+                  Registrar
+                </button>
+              </div>
+            </>
+          )}
+
           <div className="register-links">
             <span
-              onClick={() => {
-                console.log("🚀 Click detectado!");
-                console.log("Navegando a:", "/Person/Login");
-                navigate("Person/Prueba");
-              }}
+              onClick={() => navigate("Person/Login")}
               style={{
                 cursor: "pointer",
                 color: "#007bff",
@@ -304,4 +411,4 @@ function RegistrarUsuario() {
   );
 }
 
-export default RegistrarUsuario;
+export default PersonRegister;

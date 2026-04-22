@@ -19,8 +19,8 @@ const PetList = () => {
 
   useEffect(() => {
     const fetchPets = async () => {
-      const data = await petService.getPets();
-      setPets(data || []);
+      const response = await petService.getPetByPerson();
+      setPets(response.data || []);
     };
     fetchPets();
   }, []);
@@ -51,7 +51,8 @@ const PetList = () => {
                     pet={{
                       photo: pet.encodedImage,
                       name: pet.name,
-                      breed: pet.race,
+                      animalType: pet.animalType.name,
+                      breed: pet.breedType.name,
                       age: pet.age,
                     }}
                   />
