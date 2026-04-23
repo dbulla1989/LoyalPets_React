@@ -186,19 +186,19 @@ function CompanyRegister() {
       return;
     }
 
-    setFormData((prev) => ({
-      ...prev,
+    const payload = {
+      ...formData,
       userRequest: {
-        ...prev.userRequest,
+        ...formData.userRequest,
         username: formData.email,
         password: formData.password,
       },
-    }));
+    };
 
-    console.log(formData);
+    console.log(payload);
 
     try {
-      const response = await apiService.post("api/company", formData);
+      const response = await apiService.post("api/company", payload);
 
       if (response.status === 200) {
         setModalMessage("¡Clinica registrada exitosamente!");
@@ -400,9 +400,6 @@ function CompanyRegister() {
                   Las contraseñas no coinciden
                 </div>
               )}
-              {/* <button type="submit" disabled={!canSubmit}>
-                Registrarse
-              </button> */}
               <div className="step-buttons">
                 <button type="button" className="btn-cancel" onClick={prevStep}>
                   Retroceder

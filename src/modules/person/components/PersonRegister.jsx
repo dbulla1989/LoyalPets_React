@@ -150,19 +150,19 @@ function PersonRegister() {
       return;
     }
 
-    setFormData((prev) => ({
-      ...prev,
+    const payload = {
+      ...formData,
       userRequest: {
-        ...prev.userRequest,
+        ...formData.userRequest,
         username: formData.email,
         password: formData.password,
       },
-    }));
+    };
 
-    console.log(formData);
+    console.log(payload);
 
     try {
-      const response = await apiService.post("api/person", formData);
+      const response = await apiService.post("api/person", payload);
 
       if (response.status === 200) {
         setModalMessage("¡Usuario registrado exitosamente!");

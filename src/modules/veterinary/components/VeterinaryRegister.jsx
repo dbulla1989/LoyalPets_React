@@ -20,7 +20,14 @@ function VeterinaryRegister() {
     officePhone: "",
     cellPhone: "",
     availabilities: [],
+    offerings: [],
   });
+
+  const [offering, setOffering] = useState({
+    offeringId: "",
+    name: "",
+    description
+  })
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -39,8 +46,10 @@ function VeterinaryRegister() {
     "Domingo",
   ];
 
+  const [step, setStep] = useState(1);
   const [schedules, setSchedules] = useState([]);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -60,6 +69,14 @@ function VeterinaryRegister() {
     setStartTime("");
     setEndTime("");
     setScheduleError("");
+  };
+
+  const openServiceModal = () => {
+    setShowServiceModal(true);
+  };
+
+  const closeServiceModal = () => {
+    setShowServiceModal(false);
   };
 
   const toggleDay = (day) => {
@@ -92,6 +109,43 @@ function VeterinaryRegister() {
         return `${order[group[0]]} a ${order[group[group.length - 1]]}`;
       })
       .join(", ");
+  };
+
+  const validateStep = () => {
+    console.log(step);
+
+    if (step === 1) {
+      return (
+        formData.name &&
+        formData.address &&
+        formData.neighborhood &&
+        formData.officePhone &&
+        formData.cellPhone
+      );
+    }
+
+    if (step === 2) {
+      return formData.availabilities;
+    }
+
+    if (step === 3) {
+      return formData.offerings;
+    }
+
+    return false;
+  };
+
+  const nextStep = () => {
+    if (!validateStep()) return;
+    setStep((prev) => prev + 1);
+  };
+
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+  };
+
+  const handleConfirmService = () => {
+    closeServiceModal();
   };
 
   const handleConfirmSchedule = () => {
@@ -237,187 +291,242 @@ function VeterinaryRegister() {
         </header>
         <main className="main-content">
           <form className="vet-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Nombre</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Dirección</label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Barrio</label>
-              <input
-                type="text"
-                name="neighborhood"
-                value={formData.neighborhood}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Teléfono Oficina</label>
-              <input
-                type="text"
-                name="officePhone"
-                value={formatOfficePhone(formData.officePhone)}
-                onChange={handleOfficePhoneChange}
-              />
-
-              {formData.officePhone && !isOfficePhoneValid && (
-                <div
-                  style={{
-                    color: "red",
-                    marginBottom: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  El teléfono celular debe tener exactamente 10 dígitos
+            {step === 1 && (
+              <>
+                <h3>Datos Básicos</h3>
+                <div className="form-group">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
                 </div>
-              )}
-            </div>
-            <div className="form-group">
-              <label>Teléfono Celular</label>
-              <input
-                type="text"
-                name="cellPhone"
-                value={formatCellPhone(formData.cellPhone)}
-                onChange={handleCellPhoneChange}
-              />
-
-              {formData.cellPhone && !isCellPhoneValid && (
-                <div
-                  style={{
-                    color: "red",
-                    marginBottom: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  El teléfono celular debe tener exactamente 10 dígitos
+                <div className="form-group">
+                  <label>Dirección</label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
                 </div>
-              )}
-            </div>
+                <div className="form-group">
+                  <label>Barrio</label>
+                  <input
+                    type="text"
+                    name="neighborhood"
+                    value={formData.neighborhood}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Teléfono Oficina</label>
+                  <input
+                    type="text"
+                    name="officePhone"
+                    value={formatOfficePhone(formData.officePhone)}
+                    onChange={handleOfficePhoneChange}
+                  />
 
-            <div className="form-group">
-              <label>Horarios habilitados</label>
+                  {formData.officePhone && !isOfficePhoneValid && (
+                    <div
+                      style={{
+                        color: "red",
+                        marginBottom: "1rem",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      El teléfono celular debe tener exactamente 10 dígitos
+                    </div>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label>Teléfono Celular</label>
+                  <input
+                    type="text"
+                    name="cellPhone"
+                    value={formatCellPhone(formData.cellPhone)}
+                    onChange={handleCellPhoneChange}
+                  />
 
-              <div className="table-content">
-                <table className="schedule-table">
-                  <thead>
-                    <tr>
-                      <th className="table-header">Días</th>
-                      <th className="table-header">Hora inicio</th>
-                      <th className="table-header">Hora final</th>
-                      <th className="table-header">Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {schedules.length > 0 ? (
-                      schedules.map((item) => (
-                        <tr key={item.id}>
-                          <td className="table-data">{item.formatDays}</td>
-                          <td className="table-data">{item.startTime}</td>
-                          <td className="table-data">{item.endTime}</td>
-                          <td className="table-data">
-                            <button
-                              type="button"
-                              className="icon-btn remove-btn"
-                              onClick={() => handleDeleteSchedule(item.id)}
-                              title="Eliminar horario"
-                            >
-                              <FaMinus />
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td className="table-data empty-row" colSpan={4}>
-                          No hay horarios agregados
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-
-                <div className="schedule-actions">
+                  {formData.cellPhone && !isCellPhoneValid && (
+                    <div
+                      style={{
+                        color: "red",
+                        marginBottom: "1rem",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      El teléfono celular debe tener exactamente 10 dígitos
+                    </div>
+                  )}
+                </div>
+                <div className="step-buttons">
                   <button
                     type="button"
-                    className="icon-btn add-btn"
-                    onClick={openScheduleModal}
-                    title="Agregar horario"
+                    className="btn-back"
+                    onClick={() => navigate("/Company/Home")}
                   >
-                    <FaPlus />
+                    Cancelar
+                  </button>
+                  <button type="button" className="btn-next" onClick={nextStep}>
+                    Continuar
                   </button>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
 
-            <div className="form-group">
-              <label>Servicios habilitados</label>
+            {step === 2 && (
+              <>
+                <div className="form-group">
+                  <h3>Horarios habilitados</h3>
 
-              <div className="table-content">
-                <table className="schedule-table">
-                  <thead>
-                    <tr>
-                      <th className="table-header">Servicio</th>
-                      <th className="table-header">Tiempo Maximo (minutos)</th>
-                      <th className="table-header">Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {schedules.length > 0 ? (
-                      schedules.map((item) => (
-                        <tr key={item.id}>
-                          <td className="table-data">{item.formatDays}</td>
-                          <td className="table-data">{item.startTime}</td>
-                          <td className="table-data">
-                            <button
-                              type="button"
-                              className="icon-btn remove-btn"
-                              onClick={() => handleDeleteSchedule(item.id)}
-                              title="Eliminar horario"
-                            >
-                              <FaMinus />
-                            </button>
-                          </td>
+                  <div className="table-content">
+                    <table className="schedule-table">
+                      <thead>
+                        <tr>
+                          <th className="table-header">Días</th>
+                          <th className="table-header">Hora inicio</th>
+                          <th className="table-header">Hora final</th>
+                          <th className="table-header">Acción</th>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td className="table-data empty-row" colSpan={4}>
-                          No hay servicios agregados
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                      </thead>
+                      <tbody>
+                        {schedules.length > 0 ? (
+                          schedules.map((item) => (
+                            <tr key={item.id}>
+                              <td className="table-data">{item.formatDays}</td>
+                              <td className="table-data">{item.startTime}</td>
+                              <td className="table-data">{item.endTime}</td>
+                              <td className="table-data">
+                                <button
+                                  type="button"
+                                  className="icon-btn remove-btn"
+                                  onClick={() => handleDeleteSchedule(item.id)}
+                                  title="Eliminar horario"
+                                >
+                                  <FaMinus />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td className="table-data empty-row" colSpan={4}>
+                              No hay horarios agregados
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
 
-                <div className="schedule-actions">
+                    <div className="schedule-actions">
+                      <button
+                        type="button"
+                        className="icon-btn add-btn"
+                        onClick={openScheduleModal}
+                        title="Agregar horario"
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="step-buttons">
+                    <button
+                      type="button"
+                      className="btn-back"
+                      onClick={prevStep}
+                    >
+                      Retroceder
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-next"
+                      onClick={nextStep}
+                    >
+                      Continuar
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <>
+                <div className="form-group">
+                  <label>Servicios habilitados</label>
+
+                  <div className="table-content">
+                    <table className="schedule-table">
+                      <thead>
+                        <tr>
+                          <th className="table-header">Servicio</th>
+                          <th className="table-header">
+                            Tiempo de consulta (minutos)
+                          </th>
+                          <th className="table-header">Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {schedules.length > 0 ? (
+                          schedules.map((item) => (
+                            <tr key={item.id}>
+                              <td className="table-data">{item.formatDays}</td>
+                              <td className="table-data">{item.startTime}</td>
+                              <td className="table-data">
+                                <button
+                                  type="button"
+                                  className="icon-btn remove-btn"
+                                  onClick={() => handleDeleteSchedule(item.id)}
+                                  title="Eliminar horario"
+                                >
+                                  <FaMinus />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td className="table-data empty-row" colSpan={4}>
+                              No hay servicios agregados
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+
+                    <div className="schedule-actions">
+                      <button
+                        type="button"
+                        className="icon-btn add-btn"
+                        onClick={openServiceModal}
+                        title="Agregar horario"
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <button className="submit-btn" type="submit">
+                  Registrar Clínica
+                </button> */}
+                <div className="step-buttons">
                   <button
                     type="button"
-                    className="icon-btn add-btn"
-                    onClick={openScheduleModal}
-                    title="Agregar horario"
+                    className="btn-cancel"
+                    onClick={prevStep}
                   >
-                    <FaPlus />
+                    Retroceder
+                  </button>
+                  <button type="submit" className="btn-submit">
+                    Registrar
                   </button>
                 </div>
-              </div>
-            </div>
-
-            <button className="submit-btn" type="submit">
-              Registrar Clínica
-            </button>
+              </>
+            )}
           </form>
         </main>
       </div>
@@ -436,19 +545,19 @@ function VeterinaryRegister() {
         onCancel={closeScheduleModal}
       />
 
-      {/* <OfferingModal
-        open={showScheduleModal}
-        weekDays={weekDays}
-        selectedDays={selectedDays}
-        toggleDay={toggleDay}
-        startTime={startTime}
-        setStartTime={setStartTime}
-        endTime={endTime}
-        setEndTime={setEndTime}
-        scheduleError={scheduleError}
-        onConfirm={handleConfirmSchedule}
-        onCancel={closeScheduleModal}
-      /> */}
+      <OfferingModal
+        open={showServiceModal}
+        // weekDays={weekDays}
+        // selectedDays={selectedDays}
+        // toggleDay={toggleDay}
+        // startTime={startTime}
+        // setStartTime={setStartTime}
+        // endTime={endTime}
+        // setEndTime={setEndTime}
+        // scheduleError={scheduleError}
+        onConfirm={handleConfirmService}
+        onCancel={closeServiceModal}
+      />
 
       <AlertNotification
         isOpen={modalOpen}
