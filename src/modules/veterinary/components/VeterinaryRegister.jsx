@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
@@ -7,6 +7,7 @@ import ScheduleModal from "./ScheduleModal";
 import OfferingModal from "./OfferingModal";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
+import GoogleMapsModal from "../../maps/components/GoogleMapsModal";
 import "../styles/VeterinaryRegister.css";
 
 function VeterinaryRegister() {
@@ -17,17 +18,43 @@ function VeterinaryRegister() {
     name: "",
     address: "",
     neighborhood: "",
+    latitude: 0.0,
+    longitude: 0.0,
     officePhone: "",
     cellPhone: "",
     availabilities: [],
     offerings: [],
   });
 
-  const [offering, setOffering] = useState({
+  const [showMapModal, setShowMapModal] = useState(false);
+
+  const handleConfirmLocation = useCallback((location) => {
+    if (location) {
+      setFormData((prev) => ({
+        ...prev,
+        address: location.address,
+        latitude: location.lat,
+        longitude: location.lng,
+      }));
+    }
+    setShowMapModal(false);
+  }, []); // Se ejecuta solo una vez al montar
+
+  const [mapLocation, setMapLocation] = useState({
+    lat: 0,
+    lng: 0,
+    address: "",
+  });
+
+  const initialOffering = {
     offeringId: "",
     name: "",
-    description
-  })
+    description: "",
+    duration: "",
+    status: "active",
+  };
+
+  const [offering, setOffering] = useState(initialOffering);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -77,6 +104,8 @@ function VeterinaryRegister() {
 
   const closeServiceModal = () => {
     setShowServiceModal(false);
+    setOffering(initialOffering);
+    console.log(formData);
   };
 
   const toggleDay = (day) => {
@@ -113,12 +142,14 @@ function VeterinaryRegister() {
 
   const validateStep = () => {
     console.log(step);
-
+    console.log(formData);
     if (step === 1) {
       return (
         formData.name &&
         formData.address &&
         formData.neighborhood &&
+        formData.latitude &&
+        formData.longitude &&
         formData.officePhone &&
         formData.cellPhone
       );
@@ -145,7 +176,30 @@ function VeterinaryRegister() {
   };
 
   const handleConfirmService = () => {
+    const serviceToAdd = offering;
+
+    setFormData((prev) => {
+      const exists = prev.offerings.some(
+        (item) => item.offeringId === serviceToAdd.offeringId,
+      );
+
+      if (exists) return prev;
+
+      return {
+        ...prev,
+        offerings: [...prev.offerings, serviceToAdd],
+      };
+    });
+
+    setOffering(initialOffering);
     closeServiceModal();
+  };
+
+  const handleDeleteService = (id) => {
+    setFormData((prev) => ({
+      ...prev,
+      offerings: prev.offerings.filter((item) => item.offeringId !== id),
+    }));
   };
 
   const handleConfirmSchedule = () => {
@@ -170,6 +224,10 @@ function VeterinaryRegister() {
     console.log(newSchedule);
 
     setSchedules((prev) => [...prev, newSchedule]);
+    setFormData((prev) => ({
+      ...prev,
+      availabilities: [...prev.availabilities, newSchedule],
+    }));
     closeScheduleModal();
   };
 
@@ -249,7 +307,7 @@ function VeterinaryRegister() {
           startDay: day,
           startTime: item.startTime + ":00",
           endTime: item.endTime + ":00",
-          status: "Active",
+          status: "active",
         })),
       ),
     };
@@ -258,6 +316,7 @@ function VeterinaryRegister() {
 
     try {
       const response = await apiService.post("api/veterinary", payload);
+      console.log(response);
       if (response.status === 200) {
         setModalMessage("Clínica registrada exitosamente!");
         setModalType("success");
@@ -305,12 +364,28 @@ function VeterinaryRegister() {
                 </div>
                 <div className="form-group">
                   <label>Dirección</label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      readOnly // Solo lectura para que el usuario use el mapa
+                      placeholder="Selecciona en el mapa..."
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowMapModal(true)} // Abre el modal
+                      style={{ padding: "8px 12px", cursor: "pointer" }}
+                    >
+                      📍
+                    </button>
+                  </div>
                 </div>
                 <div className="form-group">
                   <label>Barrio</label>
@@ -470,17 +545,19 @@ function VeterinaryRegister() {
                         </tr>
                       </thead>
                       <tbody>
-                        {schedules.length > 0 ? (
-                          schedules.map((item) => (
-                            <tr key={item.id}>
-                              <td className="table-data">{item.formatDays}</td>
-                              <td className="table-data">{item.startTime}</td>
+                        {formData.offerings.length > 0 ? (
+                          formData.offerings.map((item) => (
+                            <tr key={item.offeringId}>
+                              <td className="table-data">{item.name}</td>
+                              <td className="table-data">{item.duration}</td>
                               <td className="table-data">
                                 <button
                                   type="button"
                                   className="icon-btn remove-btn"
-                                  onClick={() => handleDeleteSchedule(item.id)}
-                                  title="Eliminar horario"
+                                  onClick={() =>
+                                    handleDeleteService(item.offeringId)
+                                  }
+                                  title="Eliminar servicio"
                                 >
                                   <FaMinus />
                                 </button>
@@ -545,8 +622,17 @@ function VeterinaryRegister() {
         onCancel={closeScheduleModal}
       />
 
+      <GoogleMapsModal
+        open={showMapModal}
+        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+        onClose={() => setShowMapModal(false)}
+        onConfirm={handleConfirmLocation}
+      />
+
       <OfferingModal
         open={showServiceModal}
+        offering={offering}
+        setOffering={setOffering}
         // weekDays={weekDays}
         // selectedDays={selectedDays}
         // toggleDay={toggleDay}

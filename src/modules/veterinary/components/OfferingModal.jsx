@@ -37,56 +37,41 @@ function OfferingModal({ open, offering, setOffering, onConfirm, onCancel }) {
           <label className="offering-label">Servicio</label>
           <select
             name="offering"
-            value={offering.name}
-            onChange={(e) =>
-              offerings.find((item) => item.name === e.target.value)
-            }
+            value={offering.offeringId}
+            onChange={(e) => {
+              const currentValue = offerings.find(
+                (item) => String(item.offeringId) === e.target.value,
+              );
+              setOffering({
+                ...offering,
+                offeringId: currentValue.offeringId,
+                name: currentValue.name,
+                description: currentValue.description,
+              });
+            }}
           >
             <option>Seleccione un servicio veterinario</option>
-            {offerings.map((offering) => (
-              <option key={offering.id} value={offering.id}>
-                {offering.name}
+            {offerings.map((item) => (
+              <option key={item.offeringId} value={item.offeringId}>
+                {item.name}
               </option>
             ))}
           </select>
         </div>
 
-        {/* <div className="offering-days-section">
-          <label className="offering-label">Días de la semana</label>
-
-          <div className="days-grid">
-            {weekDays.map((day) => (
-              <label key={day} className="day-option">
-                <input
-                  type="checkbox"
-                  checked={selectedDays.includes(day)}
-                  onChange={() => toggleDay(day)}
-                />
-                <span>{day}</span>
-              </label>
-            ))}
-          </div>
-        </div> */}
-
-        {/* <div className="offering-field">
-          <label className="offering-label">Hora de inicio</label>
-          <input
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-
         <div className="offering-field">
-          <label className="offering-label">Hora final</label>
+          <label className="offering-label">Tiempo de consulta (minutos)</label>
           <input
-            type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
+            type="number"
+            value={offering.duration}
+            onChange={(e) =>
+              setOffering({
+                ...offering,
+                duration: e.target.value,
+              })
+            }
           />
         </div>
-
-        {offeringError && <div className="offering-error">{offeringError}</div>} */}
 
         <div className="offering-modal-actions">
           <button type="button" className="confirm-btn" onClick={onConfirm}>

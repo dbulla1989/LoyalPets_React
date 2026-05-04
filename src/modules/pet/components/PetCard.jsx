@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/PetCard.css";
 
 const PetCard = ({ pet }) => {
+  const navigate = useNavigate();
   console.log("Este es la mascota:");
   console.log(pet);
   return (
@@ -20,6 +22,14 @@ const PetCard = ({ pet }) => {
         <p>
           <strong>Edad:</strong> {pet.age} meses
         </p>
+      </div>
+      <div className="pet-footer">
+        <button
+          className="details-btn"
+          onClick={() => navigate("/Person/Pet/Details", { state: { pet } })}
+        >
+          Detalles
+        </button>
       </div>
     </div>
   );

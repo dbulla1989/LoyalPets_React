@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LoginForm, ResetPassword } from "./modules/auth";
 import PetList from "./modules/pet/components/PetList";
-import PetRegister from "./modules/pet/components/PetRegister";
+import { PetRegister, PetDetails } from "./modules/pet/";
 import { PersonHome, PersonModify, PersonRegister } from "./modules/person";
 import Informative from "./modules/informative/components/Informative";
 import {
@@ -30,6 +30,7 @@ function App() {
           <Route path="Pet">
             <Route path="List" element={<PetList />} />
             <Route path="Register" element={<PetRegister />} />
+            <Route path="Details" element={<PetDetails />} />
             <Route path="Modify" element={<PetRegister />} />
             <Route path="Remove" element={<PetRegister />} />
           </Route>

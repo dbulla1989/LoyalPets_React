@@ -4,6 +4,7 @@ import { FaBars, FaPlus, FaMinus } from "react-icons/fa";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
 import petService from "../../core/services/PetService";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import "../styles/AppointmentSchedule.css";
 
 export default function AppointmentSchedule() {
@@ -151,6 +152,15 @@ export default function AppointmentSchedule() {
           {/* )} */}
         </div>
       </div>
+      {/* <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+        <div style={{ width: "100%", height: "100vh" }}>
+          <Map
+            defaultZoom={13}
+            defaultCenter={{ lat: 4.60971, lng: -74.08175 }}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
+      </APIProvider> */}
     </div>
   );
 }

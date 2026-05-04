@@ -1,0 +1,49 @@
+.pet-details-container {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 100px;
+  padding: 20px;
+}
+
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Tooltip oculto por defecto */
+.fab::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 120%; /* Posicionado a la izquierda del botón */
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #2563eb;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 18px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+
+/* Aparece al hacer hover */
+.fab:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.column-appointments {
+  position: relative; /* Para que el botón flotante se posicione respecto a esto */
+}

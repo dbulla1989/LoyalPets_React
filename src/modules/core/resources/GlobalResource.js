@@ -29,7 +29,6 @@ const handleResponse = async (response) => {
   const isJson = contentType.includes("application/json");
   const data = isJson ? await response.json() : null;
 
-  console.log(JSON.stringify(response));
   return {
     status: response.status,
     data,

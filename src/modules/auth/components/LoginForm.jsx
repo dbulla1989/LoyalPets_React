@@ -76,11 +76,13 @@ export default function LoginForm() {
       ) {
         const currentUser = (() => {
           if (pathname.toLowerCase().includes("company")) {
+            console.log("compañia");
             setPerson(response.data[0].company);
             return response.data[0].company.legalRepresentative;
           }
 
           if (pathname.toLowerCase().includes("person")) {
+            console.log("persona");
             setPerson(response.data[0].person);
             return (
               response.data[0].person.names.split(" ")[0] +
