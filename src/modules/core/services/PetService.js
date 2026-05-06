@@ -11,7 +11,7 @@ const petService = {
 
   getPetByPerson: async () => {
     const user = JSON.parse(localStorage.getItem("User"));
-    const res = apiService.get(`api/pet/${user.personId}`);
+    const res = apiService.get(`api/person/${user.personId}/pets`);
     return res;
   },
 };

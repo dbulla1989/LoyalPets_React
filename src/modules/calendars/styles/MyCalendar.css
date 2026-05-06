@@ -1,0 +1,19 @@
+.calendar-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.custom-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

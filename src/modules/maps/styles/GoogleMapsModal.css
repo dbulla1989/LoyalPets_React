@@ -71,6 +71,31 @@
   background: #fff;
 }
 
+.google-maps-geolocate-control {
+  margin: 0 22px 22px 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  transform: translate(14px, -6px);
+}
+
+.google-maps-geolocate-control:hover {
+  background: #f5f5f5;
+}
+
+.google-maps-geolocate-control .material-symbols-outlined {
+  font-size: 22px;
+  color: #3c4043;
+}
+
 .google-maps-btn {
   min-width: 120px;
   height: 42px;
@@ -78,7 +103,10 @@
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease,
+    background 0.15s ease;
 }
 
 .google-maps-btn:hover {
@@ -117,6 +145,29 @@
   border: 1px dashed #d1d5db;
   color: #6b7280;
   background: #f9fafb;
+}
+
+.clinic-info-window h4 {
+  margin: 0 0 5px 0;
+  color: #111827;
+}
+.clinic-info-window p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.map-center-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  background: #e53935;
+  border-radius: 50% 50% 50% 0;
+  transform: translate(-50%, -100%) rotate(-45deg);
+  pointer-events: none;
+  z-index: 10;
 }
 
 @media (max-width: 768px) {

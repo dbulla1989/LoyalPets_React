@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LoginForm, ResetPassword } from "./modules/auth";
 import PetList from "./modules/pet/components/PetList";
+import HelpPage from "./modules/help/components/HelpPage";
+import MyCalendar from "./modules/calendars/components/MyCalendar";
 import { PetRegister, PetDetails } from "./modules/pet/";
 import { PersonHome, PersonModify, PersonRegister } from "./modules/person";
 import Informative from "./modules/informative/components/Informative";
@@ -25,6 +27,8 @@ function App() {
         <Route path="Person">
           <Route path="Home" element={<PersonHome />} />
           <Route path="Login" element={<LoginForm />} />
+          <Route path="MyCalendar" element={<MyCalendar />} />
+          <Route path="HelpPage" element={<HelpPage />} />
           <Route path="ResetPassword" element={<ResetPassword />} />
           <Route path="Register" element={<PersonRegister />} />
           <Route path="Pet">
@@ -44,6 +48,7 @@ function App() {
           <Route path="Home" element={<CompanyHome />} />
           <Route path="Login" element={<LoginForm />} />
           <Route path="ResetPassword" element={<ResetPassword />} />
+          <Route path="HelpPage" element={<HelpPage />} />
           <Route path="Register" element={<CompanyRegister />} />
           <Route path="Veterinary">
             <Route path="Register" element={<VeterinaryRegister />} />

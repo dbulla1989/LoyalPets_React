@@ -20,6 +20,7 @@ const PetList = () => {
   useEffect(() => {
     const fetchPets = async () => {
       const response = await petService.getPetByPerson();
+      console.log(response);
       setPets(response.data || []);
     };
     fetchPets();
@@ -49,6 +50,7 @@ const PetList = () => {
                   <PetCard
                     key={pet.id}
                     pet={{
+                      id: pet.id,
                       photo: pet.encodedImage,
                       name: pet.name,
                       animalType: pet.animalType.name,

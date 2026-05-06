@@ -64,23 +64,7 @@ function Menu() {
       ],
     },
     {
-      name: "Configuración",
-      icon: <FaCog />,
-      subItems: [
-        {
-          path: "/configuracion/notificaciones",
-          name: "Notificaciones",
-          icon: <FaBell />,
-        },
-        {
-          path: "/configuracion/privacidad",
-          name: "Privacidad",
-          icon: <FaLock />,
-        },
-      ],
-    },
-    {
-      path: "/ayuda",
+      path: "/company/helppage",
       name: "Ayuda",
       icon: <FaQuestionCircle />,
     },
@@ -93,70 +77,17 @@ function Menu() {
       icon: <FaHome />,
     },
     {
-      name: "Mascotas",
+      path: "/Person/Pet/List",
+      name: "Mis Mascotas",
       icon: <FaPaw />,
-      subItems: [
-        {
-          path: "/Person/Pet/List",
-          name: "Mis Mascotas",
-          icon: <FaUser />,
-        },
-        {
-          path: "/Person/Pet/Register",
-          name: "Registrar Mascota",
-          icon: <FaBars />,
-        },
-        {
-          path: "/Person/Pet/Modify",
-          name: "Modificar Mascota",
-          icon: <FaBars />,
-        },
-        {
-          path: "/Person/Pet/Remove",
-          name: "Eliminar Mascota",
-          icon: <FaBars />,
-        },
-      ],
     },
     {
-      name: "Agendas",
+      path: "/Person/MyCalendar",
+      name: "Mi Agenda",
       icon: <ImAddressBook />,
-      subItems: [
-        {
-          path: "/Person/Appointment/Register",
-          name: "Agendar Cita",
-          icon: <MdAssignmentAdd />,
-        },
-        {
-          path: "/Person/Appointment/Modify",
-          name: "Modificar Citas",
-          icon: <GrDocumentUpdate />,
-        },
-        {
-          path: "/Person/Appointment/Cancel",
-          name: "Cancelar Cita",
-          icon: <MdOutlineHistory />,
-        },
-      ],
     },
     {
-      name: "Configuración",
-      icon: <FaCog />,
-      subItems: [
-        {
-          path: "/configuracion/notificaciones",
-          name: "Notificaciones",
-          icon: <FaBell />,
-        },
-        {
-          path: "/configuracion/privacidad",
-          name: "Privacidad",
-          icon: <FaLock />,
-        },
-      ],
-    },
-    {
-      path: "/ayuda",
+      path: "/Person/HelpPage",
       name: "Ayuda",
       icon: <FaQuestionCircle />,
     },

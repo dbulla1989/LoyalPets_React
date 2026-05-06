@@ -38,7 +38,7 @@ function VeterinaryRegister() {
       }));
     }
     setShowMapModal(false);
-  }, []); // Se ejecuta solo una vez al montar
+  }, []); 
 
   const [mapLocation, setMapLocation] = useState({
     lat: 0,
@@ -624,6 +624,7 @@ function VeterinaryRegister() {
 
       <GoogleMapsModal
         open={showMapModal}
+        mode="free"
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         onClose={() => setShowMapModal(false)}
         onConfirm={handleConfirmLocation}

@@ -1,0 +1,84 @@
+.help-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.help-title {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.help-subtitle {
+  color: #555;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.help-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.help-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.help-header {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  color: #111827;
+}
+
+.help-header:hover {
+  background: #eeeeee;
+}
+
+.help-icon {
+  display: flex;
+  align-items: center;
+}
+
+.help-content {
+  padding: 16px;
+  background: #fff;
+}
+
+.help-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+
+.help-list-item {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.help-video-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.help-video {
+  width: 100%;
+  height: 315px;
+  display: block;
+}

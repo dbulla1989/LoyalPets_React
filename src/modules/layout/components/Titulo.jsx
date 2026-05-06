@@ -16,9 +16,13 @@ function Titulo({ pageTitle }) {
     setIsModalOpen(!isModalOpen);
   };
 
+  const rolePath = pathname.toLowerCase().includes("company")
+    ? "Company"
+    : "Person";
+
   const handleChangePassword = () => {
-    alert("Redirigiendo a cambiar contraseña...");
     setIsModalOpen(false);
+    navigate(`/${rolePath}/ResetPassword`);
   };
 
   const handleChangeUpdateData = () => {
@@ -27,13 +31,13 @@ function Titulo({ pageTitle }) {
   };
 
   const handleLogout = () => {
-    const sesionPath = pathname.toLowerCase().includes("company")
-      ? "/Company/Login"
-      : "/Person/Login";
+    // const sesionPath = pathname.toLowerCase().includes("company")
+    //   ? "/Company/Login"
+    //   : "/Person/Login";
 
     alert("Sesión cerrada.");
     setIsModalOpen(false);
-    navigate(sesionPath);
+    navigate(`/${rolePath}/Login`);
   };
 
   return (

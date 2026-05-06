@@ -19,7 +19,7 @@ const PetDetails = () => {
   const toggleSidebar = () => setSidebarOpen((open) => !open);
   const location = useLocation();
   const navigate = useNavigate();
-  const pet = location.state?.pet; // Recuperamos la mascota
+  const pet = location.state?.pet;
 
   if (!pet) return <div>No se encontraron datos de la mascota</div>;
 
@@ -87,7 +87,7 @@ const PetDetails = () => {
             <button
               className="fab"
               data-tooltip="Agendar Cita"
-              onClick={() => navigate('/ScheduleAppointment', { state: { pet } })}
+              onClick={() => navigate('/Person/Appointment/Register', { state: { pet } })}
             >
               <FaCalendarPlus />
             </button>
