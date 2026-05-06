@@ -1,0 +1,81 @@
+.event-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.event-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+}
+
+.event-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  color: #334155;
+}
+
+.event-modal-title {
+  margin: 0 0 18px;
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.event-modal-body {
+  display: grid;
+  gap: 12px;
+}
+
+.event-modal-row {
+  display: flex;
+  gap: 8px;
+  font-size: 15px;
+  color: #334155;
+}
+
+.event-modal-label {
+  font-weight: 700;
+  min-width: 100px;
+  color: #0f172a;
+}
+
+.event-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.event-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.event-btn-reschedule {
+  background: #2563eb;
+  color: #fff;
+}
+
+.event-btn-cancel {
+  background: #dc2626;
+  color: #fff;
+}

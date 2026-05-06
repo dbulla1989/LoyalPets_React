@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
 import { Calendar, momentLocalizer, Navigate } from "react-big-calendar";
+import EventCalendarModal from "./EventCalendarModal";
 import moment from "moment";
 import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -54,6 +55,8 @@ export default function MyCalendar() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("User"));
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [eventModalOpen, setEventModalOpen] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [events, setEvents] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -149,6 +152,24 @@ export default function MyCalendar() {
     setView("day");
   };
 
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event);
+    setEventModalOpen(true);
+  };
+
+  const closeEventModal = () => {
+    setEventModalOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const handleReschedule = (event) => {
+    console.log("Reprogramar", event);
+  };
+
+  const handleCancelEvent = (event) => {
+    console.log("Cancelar", event);
+  };
+
   return (
     <div className="layout">
       <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
@@ -180,6 +201,7 @@ export default function MyCalendar() {
                 setCurrentDate(date);
                 setView("day");
               }}
+              onSelectEvent={handleSelectEvent}
               views={["month", "week", "day", "agenda"]}
               defaultView="month"
               style={{ height: 650 }}
@@ -196,6 +218,14 @@ export default function MyCalendar() {
         message={modalMessage}
         type={modalType}
         onClose={() => setModalOpen(false)}
+      />
+
+      <EventCalendarModal
+        open={eventModalOpen}
+        event={selectedEvent}
+        onClose={closeEventModal}
+        onReschedule={handleReschedule}
+        onCancelEvent={handleCancelEvent}
       />
     </div>
   );
