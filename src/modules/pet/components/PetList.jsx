@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Menu from "../../layout/components/Menu";
 import Titulo from "../../layout/components/Titulo";
 import {
@@ -7,12 +8,14 @@ import {
   FaUsers,
   FaClock,
   FaClipboardList,
+  FaPaw,
 } from "react-icons/fa";
 import petService from "../../core/services/PetService";
 import PetCard from "./PetCard";
 import "../styles/PetList.css";
 
 const PetList = () => {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen((open) => !open);
   const [pets, setPets] = useState([]);
@@ -62,6 +65,13 @@ const PetList = () => {
               </div>
             )}
           </div>
+          <button
+            className="fab"
+            data-tooltip="Registrar Mascota"
+            onClick={() => navigate("/Person/Pet/Register")}
+          >
+            <FaPaw />
+          </button>
         </main>
       </div>
     </div>
