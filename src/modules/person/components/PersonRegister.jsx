@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import apiService from "../../core/resources/GlobalResource";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
 import SecurityQuestion from "../../auth/components/SecurityQuestion";
+import PasswordForm from "../../auth/components/PasswordForm";
 import "../styles/PersonRegister.css";
 
 const EyeOpen = (
@@ -304,78 +305,11 @@ function PersonRegister() {
 
           {step === 3 && (
             <>
-              <div style={{ position: "relative" }}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  autoComplete="new-password"
-                  placeholder="Contraseña"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  style={{ paddingRight: "2.5rem" }}
-                />
-                <span
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  style={{
-                    position: "absolute",
-                    right: "0.8rem",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    userSelect: "none",
-                  }}
-                  tabIndex={0}
-                  aria-label={
-                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                  }
-                >
-                  {showPassword ? EyeOpen : EyeClosed}
-                </span>
-              </div>
-              <div style={{ position: "relative" }}>
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  autoComplete="new-password"
-                  placeholder="Confirmar Contraseña"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  style={{ paddingRight: "2.5rem" }}
-                />
-                <span
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  style={{
-                    position: "absolute",
-                    right: "0.8rem",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    userSelect: "none",
-                  }}
-                  tabIndex={0}
-                  aria-label={
-                    showConfirmPassword
-                      ? "Ocultar contraseña"
-                      : "Mostrar contraseña"
-                  }
-                >
-                  {showConfirmPassword ? EyeOpen : EyeClosed}
-                </span>
-              </div>
-              {!passwordsMatch && (
-                <div
-                  style={{
-                    color: "red",
-                    marginBottom: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Las contraseñas no coinciden
-                </div>
-              )}
-
+              <PasswordForm
+                formData={formData}
+                setFormData={setFormData}
+                onMatchChange={null}
+              />
               <div className="step-buttons">
                 <button type="button" className="btn-cancel" onClick={prevStep}>
                   Retroceder

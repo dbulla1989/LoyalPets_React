@@ -38,7 +38,7 @@ function VeterinaryRegister() {
       }));
     }
     setShowMapModal(false);
-  }, []); 
+  }, []);
 
   const [mapLocation, setMapLocation] = useState({
     lat: 0,
@@ -362,26 +362,21 @@ function VeterinaryRegister() {
                     onChange={handleChange}
                   />
                 </div>
+
                 <div className="form-group">
                   <label>Dirección</label>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "8px",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className="address-container">
                     <input
                       type="text"
                       name="address"
                       value={formData.address}
-                      readOnly // Solo lectura para que el usuario use el mapa
+                      readOnly
                       placeholder="Selecciona en el mapa..."
                     />
                     <button
                       type="button"
-                      onClick={() => setShowMapModal(true)} // Abre el modal
-                      style={{ padding: "8px 12px", cursor: "pointer" }}
+                      className="map-button"
+                      onClick={() => setShowMapModal(true)}
                     >
                       📍
                     </button>

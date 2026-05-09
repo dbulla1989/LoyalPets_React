@@ -124,7 +124,9 @@ export default function LoginForm() {
     <>
       <div className="login-page">
         <div className="login-left">
-          <img src={logo} alt="Logo" className="login-logo" />
+          <Link to="/" className="login-logo-link">
+            <img src={logo} alt="Logo" className="login-logo" />
+          </Link>
         </div>
         <div className="login-right">
           <form onSubmit={handleSubmit} className="login-form">

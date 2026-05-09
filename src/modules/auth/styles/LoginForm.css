@@ -8,7 +8,7 @@
 .login-left {
   flex: 1;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.884),   rgba(243, 236, 236, 0.801)), 
+    linear-gradient(rgba(255, 255, 255, 0.884), rgba(243, 236, 236, 0.801)),
     url("../../../../src/assets/fondo.jpg");
   display: flex;
   justify-content: center;
@@ -16,10 +16,17 @@
   padding: 0.5rem;
 }
 
+.login-logo-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .login-logo {
-  max-width: 160%; 
+  max-width: 160%;
   height: auto;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .login-right {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "../styles/SecurityQuestion.css";
 
 export default function SecurityQuestion({
@@ -19,6 +19,18 @@ export default function SecurityQuestion({
     { value: "¿Cuál es tu equipo favorito?", label: "¿Cuál es tu equipo favorito?" },
   ];
 
+  const getAvailableOptions = (currentIndex) => {
+    const selectedQuestions = questions
+      .map((item, index) => (index !== currentIndex ? item.question : null))
+      .filter(Boolean);
+
+    return options.filter(
+      (option) =>
+        !selectedQuestions.includes(option.value) ||
+        questions[currentIndex]?.question === option.value
+    );
+  };
+
   return (
     <div className="step-section">
       <h3>Preguntas de Seguridad</h3>
@@ -34,7 +46,7 @@ export default function SecurityQuestion({
             className="custom-select"
           >
             <option value="">Selecciona una pregunta</option>
-            {options.map((option) => (
+            {getAvailableOptions(index).map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

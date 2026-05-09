@@ -46,9 +46,9 @@ const upcomingData = [
 
 const servicesData = [
   { name: "Vacunación", value: 40 },
-  { name: "Control", value: 25 },
-  { name: "Baño", value: 20 },
-  { name: "Consulta", value: 15 },
+  { name: "Consulta General", value: 25 },
+  { name: "Peluqueria", value: 20 },
+  { name: "Laboratorio", value: 15 },
 ];
 
 const reminderData = [

@@ -26,8 +26,8 @@ function Titulo({ pageTitle }) {
   };
 
   const handleChangeUpdateData = () => {
-    alert("Redirigiendo a la pagina para actualizar los datos...");
     setIsModalOpen(false);
+    navigate(`/${rolePath}/Modify`);
   };
 
   const handleLogout = () => {

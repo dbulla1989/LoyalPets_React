@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BigCalendar from "../../calendars/components/BigCalendar";
 import Menu from "../../layout/components/Menu";
@@ -6,33 +6,33 @@ import Titulo from "../../layout/components/Titulo";
 import apiService from "../../core/resources/GlobalResource";
 import GoogleMapsModal from "../../maps/components/GoogleMapsModal";
 import AlertNotification from "../../alertNotification/components/AlertNotification";
-import {
-  FaBars,
-  FaCalendarPlus,
-  FaUsers,
-  FaClock,
-  FaClipboardList,
-} from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import "../styles/AppointmentSchedule.css";
 
 export default function AppointmentSchedule() {
   const user = JSON.parse(localStorage.getItem("User"));
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showMapModal, setShowMapModal] = useState(false);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
+
   const [veterinary, setVeterinary] = useState({});
   const [offerings, setOfferings] = useState([]);
   const [availabilities, setAvailabilities] = useState([]);
   const [appointments, setAppointments] = useState([]);
+
   const [selectedOfferigId, setSelectedOfferigId] = useState("");
   const [selectedTimestamp, setSelectedTimestamp] = useState("");
-  const [timestampIso, setTimestampIso] = useState("");
-  const [date, setDate] = useState(new Date());
+
   const location = useLocation();
   const navigate = useNavigate();
+
   const pet = location.state?.pet;
+
   const toggleSidebar = () => setSidebarOpen((open) => !open);
 
   const [formData, setFormData] = useState({
@@ -62,18 +62,20 @@ export default function AppointmentSchedule() {
     return response.data;
   };
 
+  const isFormValid =
+    formData.veterinaryId &&
+    formData.offeringId &&
+    formData.startDate &&
+    formData.endDate;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setFormData((pre) => ({
-      ...pre,
-      offeringId: selectedOfferigId,
-    }));
+    if (!isFormValid) return;
 
-    console.log(formData);
     try {
       const response = await apiService.post("api/appointment", formData);
-      console.log(response);
+
       if (response.status === 200) {
         setModalMessage("¡Cita registrada exitosamente!");
         setModalType("success");
@@ -85,9 +87,12 @@ export default function AppointmentSchedule() {
         );
         setModalType("error");
       }
+
       setModalOpen(true);
     } catch (err) {
-      setError(err.message || "Error al momento de registrar la cita");
+      setModalMessage("Error al momento de registrar la cita");
+      setModalType("error");
+      setModalOpen(true);
     }
   };
 
@@ -99,14 +104,20 @@ export default function AppointmentSchedule() {
     }
   };
 
-  const handleSelectDateTime = ({ iso, label, start, end }) => {
-    setSelectedTimestamp(label);
-    setTimestampIso(iso);
-    setFormData((pre) => ({
-      ...pre,
-      startDate: start,
-      endDate: end,
+  const handleSelectDateTime = (data) => {
+    // Cuando solo selecciona el día
+    if (!data?.label) return;
+
+    // Cuando selecciona una hora
+    setSelectedTimestamp(data.label);
+
+    setFormData((prev) => ({
+      ...prev,
+      startDate: data.start,
+      endDate: data.end,
     }));
+
+    setShowCalendarModal(false);
   };
 
   const handleConfirmLocation = useCallback(async (location) => {
@@ -116,23 +127,38 @@ export default function AppointmentSchedule() {
       const serviceData = await fetchServices(location.id);
       const availabilityData = await fetchAvailabilities(location.id);
       const appointmentData = await fetchAppointments(location.id);
-      setFormData((pre) => ({
-        ...pre,
-        veterinaryId: location.id,
-      }));
+
       setOfferings(serviceData);
       setAvailabilities(availabilityData);
       setAppointments(appointmentData);
+
+      setSelectedOfferigId("");
+      setSelectedTimestamp("");
+
+      setFormData((prev) => ({
+        ...prev,
+        veterinaryId: location.id,
+        offeringId: "",
+        startDate: "",
+        endDate: "",
+      }));
     }
+
     setShowMapModal(false);
   }, []);
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setSelectedOfferigId(e.target.value);
-    setFormData((pre) => ({
-      ...pre,
-      offeringId: e.target.value,
+  const handleChangeService = (e) => {
+    const offeringId = e.target.value;
+
+    setSelectedOfferigId(offeringId);
+
+    setSelectedTimestamp("");
+
+    setFormData((prev) => ({
+      ...prev,
+      offeringId,
+      startDate: "",
+      endDate: "",
     }));
   };
 
@@ -146,15 +172,20 @@ export default function AppointmentSchedule() {
             <FaBars />
           </button>
         </div>
+
         <Menu isOpen={sidebarOpen} />
       </aside>
+
       <div className="content-area">
         <header className="header">
           <Titulo pageTitle="Agendar Cita Veterinaria" />
         </header>
+
         <main className="main-content">
           <form className="appointment-form" onSubmit={handleSubmit}>
+            {/* Mascota */}
             <h3>Mascota Seleccionada</h3>
+
             <div className="form-group">
               <input
                 type="text"
@@ -164,64 +195,85 @@ export default function AppointmentSchedule() {
               />
             </div>
 
+            {/* Veterinaria */}
             <h3>Veterinaria Seleccionada</h3>
+
             <div className="form-group">
-              <input
-                type="text"
-                value={veterinary.name}
-                readOnly
-                className="input-readonly"
-                placeholder="Selecciona en el mapa..."
-              />
-              <button
-                type="button"
-                onClick={() => setShowMapModal(true)}
-                style={{ padding: "8px 12px", cursor: "pointer" }}
-              >
-                📍
-              </button>
+              <div className="sub-container">
+                <input
+                  type="text"
+                  value={veterinary.name || ""}
+                  readOnly
+                  className="input-readonly"
+                  placeholder="Selecciona en el mapa..."
+                />
+
+                <button
+                  type="button"
+                  className="icon-action-button"
+                  onClick={() => setShowMapModal(true)}
+                >
+                  📍
+                </button>
+              </div>
             </div>
 
-            <h3>Servicio Seleccionado</h3>
-            <div className="form-group">
-              <select
-                name="breedTypeId"
-                value={selectedOfferigId}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Selecciona un servicio</option>
-                {offerings.map((item) => (
-                  <option key={item.offeringId} value={item.offeringId}>
-                    {item.offering.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Servicio */}
+            {formData.veterinaryId && (
+              <>
+                <h3>Servicio Seleccionado</h3>
 
-            <h3>Fecha y Hora Seleccionada</h3>
-            <div className="form-group">
-              <input
-                type="text"
-                name="timestamp"
-                value={selectedTimestamp}
-                readOnly
-                className="input-readonly"
-                placeholder="Selecciona fecha y hora"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  console.log(appointments);
-                  setShowCalendarModal(true);
-                }}
-                style={{ padding: "8px 12px", cursor: "pointer" }}
-              >
-                📅
-              </button>
-            </div>
+                <div className="form-group">
+                  <select
+                    value={selectedOfferigId}
+                    onChange={handleChangeService}
+                    required
+                  >
+                    <option value="">Selecciona un servicio</option>
 
-            <button className="submit-btn" type="submit">
+                    {offerings.map((item) => (
+                      <option key={item.offeringId} value={item.offeringId}>
+                        {item.offering.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+
+            {/* Fecha y Hora */}
+            {formData.offeringId && (
+              <>
+                <h3>Fecha y Hora Seleccionada</h3>
+
+                <div className="form-group">
+                  <div className="sub-container">
+                    <input
+                      type="text"
+                      value={selectedTimestamp}
+                      readOnly
+                      className="input-readonly"
+                      placeholder="Selecciona fecha y hora"
+                    />
+
+                    <button
+                      type="button"
+                      className="icon-action-button"
+                      onClick={() => setShowCalendarModal(true)}
+                    >
+                      📅
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Botón */}
+            <button
+              className="submit-btn"
+              type="submit"
+              disabled={!isFormValid}
+            >
               Agendar Cita
             </button>
           </form>

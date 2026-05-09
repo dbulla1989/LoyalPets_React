@@ -8,6 +8,7 @@ import {
   FaBars,
   // FaWandMagicSparkles,
   FaPaw,
+  FaStore,
   FaChevronDown,
   FaChevronRight,
   FaLock,
@@ -32,36 +33,20 @@ function Menu() {
       icon: <FaHome />,
     },
     {
-      name: "Sedes",
-      icon: <FaPaw />,
-      subItems: [
-        {
-          path: "/Company/Veterinary/Register",
-          name: "Registrar Sede",
-          icon: <FaUser />,
-        },
-        {
-          path: "/Company/Veterinary/Modify",
-          name: "Modificar Sede",
-          icon: <FaBars />,
-        },
-        {
-          path: "/Company/Veterinary/Remove",
-          name: "Eliminar Sede",
-          icon: <FaBars />,
-        },
-      ],
+      path: "/Company/Veterinary/List",
+      name: "Mis Sedes",
+      icon: <FaStore />,
     },
     {
       name: "Agenda",
       icon: <ImAddressBook />,
-      subItems: [
-        {
-          path: "/Company/Planner/Calendar",
-          name: "Mi Agenda",
-          icon: <MdAssignmentAdd />,
-        },
-      ],
+      // subItems: [
+      //   {
+      //     path: "/Person/MyCalendar",
+      //     name: "Mi Agenda",
+      //     icon: <MdAssignmentAdd />,
+      //   },
+      // ],
     },
     {
       path: "/company/helppage",
